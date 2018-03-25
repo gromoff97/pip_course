@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="course:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/course_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="course" />
+          <element id="jpa-descriptors" facet="course/jpa/JPA" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Hibernate 5.2.14-5.2.14" />
+          <element id="library" level="project" name="postgresql-42.2.2" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
