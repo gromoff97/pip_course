@@ -1,4 +1,4 @@
-package course;
+package course.entity;
 
 import javax.persistence.*;
 

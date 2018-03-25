@@ -1,5 +1,7 @@
 package course;
 
+import course.service.EntityService;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -10,7 +12,7 @@ public class RESTConfig extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<>();
-        s.add(Test.class);
+        s.add(EntityService.class);
         return s;
     }
 }

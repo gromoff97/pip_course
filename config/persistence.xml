@@ -4,8 +4,8 @@
     <persistence-unit name="course.database" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <class>course.EntityLines</class>
-        <class>course.EntityStationsStates</class>
+        <class>course.entity.EntityLines</class>
+        <class>course.entity.EntityStationsStates</class>
 
         <properties>
             <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
