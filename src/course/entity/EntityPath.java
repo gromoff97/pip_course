@@ -1,7 +1,6 @@
 package course.entity;
 
 import javax.persistence.*;
-import java.sql.Time;
 
 @Entity
 @Table(name = "path", uniqueConstraints = {@UniqueConstraint(columnNames = {"from_station", "to_station"})})
@@ -20,15 +19,15 @@ public class EntityPath {
     private EntityStations toStation;
 
     @Column(nullable = false)
-    private Time time;
+    private int timeInSec;
 
     public EntityPath() {
     }
 
-    public EntityPath(EntityStations fromStation, EntityStations toStation, Time time) {
+    public EntityPath(EntityStations fromStation, EntityStations toStation, int timeInSec) {
         this.fromStation = fromStation;
         this.toStation = toStation;
-        this.time = time;
+        this.timeInSec = timeInSec;
     }
 
     public EntityStations getFromStation() {
@@ -39,11 +38,11 @@ public class EntityPath {
         return toStation;
     }
 
-    public Time getTime() {
-        return time;
+    public int getTimeInSec() {
+        return timeInSec;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setTimeInSec(int timeInSec) {
+        this.timeInSec = timeInSec;
     }
 }
