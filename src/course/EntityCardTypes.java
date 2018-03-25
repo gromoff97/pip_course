@@ -17,6 +17,9 @@ public class EntityCardTypes {
     @OneToMany(mappedBy = "cardType")
     private Collection<EntityCards> cards;
 
+    public EntityCardTypes() {
+    }
+
     public EntityCardTypes(String name) {
         this.name = name;
     }

@@ -22,6 +22,9 @@ public class EntityPath {
     @Column(nullable = false)
     private Time time;
 
+    public EntityPath() {
+    }
+
     public EntityPath(EntityStations fromStation, EntityStations toStation, Time time) {
         this.fromStation = fromStation;
         this.toStation = toStation;

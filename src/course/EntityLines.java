@@ -19,6 +19,9 @@ public class EntityLines {
     @OneToMany(mappedBy = "line")
     private Collection<EntityStations> stations;
 
+    public EntityLines() {
+    }
+
     public EntityLines(int schemeNumber, String schemeColor) {
         this.schemeNumber = schemeNumber;
         this.schemeColor = schemeColor;

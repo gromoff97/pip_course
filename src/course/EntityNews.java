@@ -19,6 +19,9 @@ public class EntityNews {
     @Column(nullable = false)
     private Date date;
 
+    public EntityNews() {
+    }
+
     public EntityNews(String content, Date date) {
         this.content = content;
         this.date = date;

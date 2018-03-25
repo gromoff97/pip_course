@@ -27,6 +27,9 @@ public class EntityStations {
     @OneToMany(mappedBy = "toStation")
     private Collection<EntityPath> pathTo;
 
+    public EntityStations() {
+    }
+
     public EntityStations(String name, EntityLines line, EntityStationsStates state) {
         this.name = name;
         this.line = line;

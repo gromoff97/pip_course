@@ -21,6 +21,9 @@ public class EntityCards {
     @Column(nullable = false)
     private int balance;
 
+    public EntityCards() {
+    }
+
     public EntityCards(EntityUsers user, EntityCardTypes cardType) {
         this.user = user;
         this.cardType = cardType;

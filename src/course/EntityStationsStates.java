@@ -16,6 +16,9 @@ public class EntityStationsStates {
     @OneToMany(mappedBy = "state")
     private Collection<EntityStations> stations;
 
+    public EntityStationsStates() {
+    }
+
     public EntityStationsStates(String name) {
         this.name = name;
     }

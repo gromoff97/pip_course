@@ -17,6 +17,9 @@ public class EntityPermissionTypes {
     @OneToMany(mappedBy = "userPermissionType")
     private Collection<EntityUsers> users;
 
+    public EntityPermissionTypes() {
+    }
+
     public EntityPermissionTypes(String name) {
         this.name = name;
     }

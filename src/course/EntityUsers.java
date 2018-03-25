@@ -34,6 +34,9 @@ public class EntityUsers {
     @OneToMany(mappedBy = "user")
     private Collection<EntityCards> cards;
 
+    public EntityUsers() {
+    }
+
     public EntityUsers(String firstName, String lastName, Date birthDate, String eMail, EntityPermissionTypes userPermissionType) {
         this.firstName = firstName;
         this.lastName = lastName;

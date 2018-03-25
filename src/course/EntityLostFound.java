@@ -18,6 +18,9 @@ public class EntityLostFound {
     @Column(nullable = false)
     private Date date;
 
+    public EntityLostFound() {
+    }
+
     public EntityLostFound(String message, Date date) {
         this.message = message;
         this.date = date;
