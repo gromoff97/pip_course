@@ -11,9 +11,25 @@ public class EntityCardTypes {
     @SequenceGenerator(name = "card_types_id_seq", sequenceName = "card_types_id_seq", allocationSize = 1)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "cardType")
     private Collection<EntityCards> cards;
+
+    public EntityCardTypes(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Collection<EntityCards> getCards() {
+        return cards;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -12,7 +12,7 @@ public class EntityCards {
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "people_id", nullable = false)
-    private EntityUsers users;
+    private EntityUsers user;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id", nullable = false)
@@ -20,4 +20,30 @@ public class EntityCards {
 
     @Column(nullable = false)
     private int balance;
+
+    public EntityCards(EntityUsers user, EntityCardTypes cardType) {
+        this.user = user;
+        this.cardType = cardType;
+        this.balance = 0;
+    }
+
+    public EntityUsers getUser() {
+        return user;
+    }
+
+    public EntityCardTypes getCardType() {
+        return cardType;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setCardType(EntityCardTypes cardType) {
+        this.cardType = cardType;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
 }

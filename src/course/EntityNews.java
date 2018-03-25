@@ -18,4 +18,21 @@ public class EntityNews {
 
     @Column(nullable = false)
     private Date date;
+
+    public EntityNews(String content, Date date) {
+        this.content = content;
+        this.date = date;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
