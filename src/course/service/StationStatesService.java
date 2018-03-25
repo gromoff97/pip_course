@@ -1,6 +1,5 @@
 package course.service;
 
-import course.entity.EntityLines;
 import course.entity.EntityStationsStates;
 
 import javax.persistence.EntityManager;
@@ -20,7 +19,7 @@ public class StationStatesService {
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         em.createQuery("DELETE FROM EntityStationsStates WHERE name = :name")
-                .setParameter("name",stateName);
+                .setParameter("name",stateName).executeUpdate();
         em.getTransaction().commit();
         em.close();
     }
