@@ -1,6 +1,7 @@
 package course;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity(name = "permission_types")
 public class EntityPermissionTypes {
@@ -12,4 +13,7 @@ public class EntityPermissionTypes {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "userPermissionType")
+    private Collection<EntityUsers> users;
 }
