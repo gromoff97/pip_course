@@ -3,25 +3,48 @@ package course.service;
 import course.entity.EntityLines;
 
 import javax.persistence.EntityManager;
+import java.util.Collection;
 
 public class LinesService {
 
-    public void createLine(int number, String color) {
+    public boolean createLine(int number, String color) {
         EntityManager em = EntityService.getEntityManager();
         EntityLines line = new EntityLines(number, color);
         em.getTransaction().begin();
-        em.persist(line);
+        try{
+            em.persist(line);
+        } catch (Exception e) {
+            return false;
+        }
         em.getTransaction().commit();
         em.close();
+        return true;
     }
 
-    public void deleteLine(int number){
+    public boolean deleteLine(int lineId){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
-        em.createQuery("DELETE FROM EntityLines WHERE number = :number")
-                .setParameter("number", number).executeUpdate();
+        try {
+            em.createQuery("DELETE FROM EntityLines WHERE number = :number")
+                    .setParameter("number", lineId).executeUpdate();
+        } catch (Exception e){
+            return false;
+        }
         em.getTransaction().commit();
         em.close();
+        return true;
+    }
+
+    public Collection<EntityLines> getLines(){
+        EntityManager em = EntityService.getEntityManager();
+        return em.createQuery("SELECT l FROM EntityLines l",EntityLines.class).getResultList();
+    }
+
+    public EntityLines getLineByColor(String color){
+        EntityManager em = EntityService.getEntityManager();
+        return em.createQuery("SELECT l FROM EntityLines l where l.color = :color",EntityLines.class)
+                .setParameter("color",color)
+                .getSingleResult();
     }
 
 }

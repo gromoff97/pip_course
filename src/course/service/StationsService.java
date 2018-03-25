@@ -1,6 +1,6 @@
 package course.service;
 
-public class StationService {
+public class StationsService {
 
     public void createStation() {
 
