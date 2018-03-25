@@ -36,18 +36,16 @@ public class LinesService {
         return true;
     }
 
-    public String getLines(){
+    public Collection<EntityLines> getLines(){
         EntityManager em = EntityService.getEntityManager();
-        Gson gson = new Gson();
-        return gson.toJson(em.createQuery("SELECT l FROM EntityLines l",EntityLines.class).getResultList());
+        return em.createQuery("SELECT l FROM EntityLines l",EntityLines.class).getResultList();
     }
 
-    public String getLineByColor(String color){
+    public EntityLines getLineByColor(String color){
         EntityManager em = EntityService.getEntityManager();
-        Gson gson = new Gson();
-        return gson.toJson(em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
+        return em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
                 .setParameter("color",color)
-                .getSingleResult());
+                .getSingleResult();
     }
 
 }

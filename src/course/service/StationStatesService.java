@@ -1,38 +1,68 @@
 package course.service;
 
+import course.entity.EntityLines;
 import course.entity.EntityStationsStates;
 
 import javax.persistence.EntityManager;
+import java.util.Collection;
 
 public class StationStatesService {
 
-    public void createState(String stateName){
+    public boolean createState(String stateName){
         EntityManager em = EntityService.getEntityManager();
         EntityStationsStates state = new EntityStationsStates(stateName);
         em.getTransaction().begin();
-        em.persist(state);
+        try {
+            em.persist(state);
+        } catch (Exception e) {
+            return false;
+        }
         em.getTransaction().commit();
         em.close();
+        return true;
     }
 
-    public void deleteState(String stateName){
+    public boolean deleteState(String stateName){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
-        em.createQuery("DELETE FROM EntityStationsStates WHERE name = :name")
-                .setParameter("name",stateName).executeUpdate();
+        try {
+            em.createQuery("DELETE FROM EntityStationsStates WHERE name = :name")
+                    .setParameter("name", stateName).executeUpdate();
+        } catch (Exception e) {
+            return false;
+        }
         em.getTransaction().commit();
         em.close();
+        return true;
     }
 
-    public void changeStateName(String prevStateName, String nowStateName){
+    public boolean changeStateName(int stateId, String nowStateName){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
-        em.createQuery("SELECT t FROM EntityStationsStates t WHERE name = :prevName", EntityStationsStates.class)
-                .setParameter("prevName",prevStateName)
+        try{
+        em.createQuery("SELECT t FROM EntityStationsStates t WHERE t.id = :stateId", EntityStationsStates.class)
+                .setParameter("stateId",stateId)
                 .getSingleResult()
                 .setName(nowStateName);
+        }
+        catch (Exception e) {
+            return false;
+        }
         em.getTransaction().commit();
         em.close();
+        return true;
+    }
+
+    public Collection<EntityStationsStates> getStates() {
+        EntityManager em = EntityService.getEntityManager();
+        return em.createQuery("SELECT ss FROM EntityStationsStates ss",EntityStationsStates.class).getResultList();
+    }
+
+    public EntityStationsStates getStateByName(String name) {
+        EntityManager em = EntityService.getEntityManager();
+        return em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.name = :name", EntityStationsStates.class)
+                .setParameter("name", name)
+                .getSingleResult();
     }
 
 }
