@@ -6,8 +6,15 @@ import course.entity.EntityUsers;
 
 public class CardsService {
 
-    public void createCard(EntityUsers user, EntityCardTypes cardType) {
-        EntityCards card = new EntityCards(user, cardType);
+    public void createCard() {
+
+    }
+
+    public void deleteCard() {
+
+    }
+
+    public void changeCardType(){
 
     }
 }
