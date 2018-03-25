@@ -3,7 +3,8 @@ package course.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "card_types")
+@Entity
+@Table(name = "card_types")
 public class EntityCardTypes {
 
     @Id

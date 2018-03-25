@@ -2,7 +2,8 @@ package course.entity;
 
 import javax.persistence.*;
 
-@Entity(name = "cards")
+@Entity
+@Table(name = "cards")
 public class EntityCards {
 
     @Id

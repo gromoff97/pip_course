@@ -3,7 +3,8 @@ package course.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "stations")
+@Entity
+@Table(name = "stations")
 public class EntityStations {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stations_id_seq")

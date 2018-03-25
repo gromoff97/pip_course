@@ -3,7 +3,8 @@ package course.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity(name = "permission_types")
+@Entity
+@Table(name = "permission_types")
 public class EntityPermissionTypes {
 
     @Id

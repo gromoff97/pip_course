@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.sql.Date;
 
 
-@Entity(name = "lost_found")
+@Entity
+@Table(name = "lost_found")
 public class EntityLostFound {
 
     @Id

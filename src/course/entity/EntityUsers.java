@@ -4,7 +4,8 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
 
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class EntityUsers {
 
     @Id

@@ -3,8 +3,8 @@ package course.entity;
 import javax.persistence.*;
 import java.sql.Time;
 
-@Entity(name = "path")
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"from_station", "to_station"})})
+@Entity
+@Table(name = "path", uniqueConstraints = {@UniqueConstraint(columnNames = {"from_station", "to_station"})})
 public class EntityPath {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "path_id_seq")
