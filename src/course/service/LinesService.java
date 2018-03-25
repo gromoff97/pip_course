@@ -17,8 +17,11 @@ public class LinesService {
 
     public void deleteLine(int number){
         EntityManager em = EntityService.getEntityManager();
-        em.createQuery("DELETE FROM lines WHERE number = :number")
+        em.getTransaction().begin();
+        em.createQuery("DELETE FROM EntityLines WHERE number = :number")
                 .setParameter("number", number).executeUpdate();
+        em.getTransaction().commit();
+        em.close();
     }
 
 }
