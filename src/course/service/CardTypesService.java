@@ -1,12 +1,8 @@
 package course.service;
 
-import com.sun.xml.wss.impl.c14n.EXC14nStAXReaderBasedCanonicalizer;
 import course.entity.EntityCardTypes;
-import course.entity.EntityNews;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import java.sql.Date;
 import java.util.Collection;
 
 public class CardTypesService {
