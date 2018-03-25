@@ -10,6 +10,6 @@ public class EntityCardTypes {
     @SequenceGenerator(name = "card_types_id_seq", sequenceName = "card_types_id_seq", allocationSize = 1)
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 }

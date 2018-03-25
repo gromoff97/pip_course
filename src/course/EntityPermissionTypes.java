@@ -10,6 +10,6 @@ public class EntityPermissionTypes {
     @SequenceGenerator(name = "permission_types_id_seq", sequenceName = "permission_types_id_seq", allocationSize = 1)
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 }

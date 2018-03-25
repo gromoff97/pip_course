@@ -1,7 +1,8 @@
 package course;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity(name = "lost_found")
 public class EntityLostFound {
@@ -11,10 +12,10 @@ public class EntityLostFound {
     @SequenceGenerator(name = "lost_found_id_seq", sequenceName = "lost_found_id_seq", allocationSize = 1)
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private String message;
 
-    @Column
+    @Column(nullable = false)
     private Date date;
 
 }

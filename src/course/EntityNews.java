@@ -2,7 +2,8 @@ package course;
 
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+
 
 @Entity(name = "news")
 public class EntityNews {
@@ -12,9 +13,9 @@ public class EntityNews {
     @SequenceGenerator(name = "news_id_seq", sequenceName = "news_id_seq", allocationSize = 1)
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private String content;
 
-    @Column
+    @Column(nullable = false)
     private Date date;
 }
