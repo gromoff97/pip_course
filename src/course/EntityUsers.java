@@ -2,6 +2,7 @@ package course;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Collection;
 
 @Entity(name = "users")
 public class EntityUsers {
@@ -29,4 +30,7 @@ public class EntityUsers {
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "permission_type_id")
     private EntityPermissionTypes userPermissionType;
+
+    @OneToMany(mappedBy = "users")
+    private Collection<EntityCards> cards;
 }

@@ -1,6 +1,7 @@
 package course;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity(name = "card_types")
 public class EntityCardTypes {
@@ -12,4 +13,7 @@ public class EntityCardTypes {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "cardType")
+    private Collection<EntityCards> cards;
 }
