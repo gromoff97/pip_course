@@ -1,6 +1,7 @@
 package course;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity(name = "stations_states")
 public class EntityStationsStates {
@@ -11,4 +12,7 @@ public class EntityStationsStates {
 
     @Column
     private String name;
+
+    @OneToMany(mappedBy = "state")
+    private Collection<EntityStations> stations;
 }

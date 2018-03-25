@@ -1,6 +1,7 @@
 package course;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity(name = "lines")
 public class EntityLines {
@@ -14,4 +15,7 @@ public class EntityLines {
 
     @Column(nullable = false)
     private String schemeColor;
+
+    @OneToMany(mappedBy = "line")
+    private Collection<EntityStations> stations;
 }
