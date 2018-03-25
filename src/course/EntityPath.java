@@ -3,7 +3,8 @@ package course;
 import javax.persistence.*;
 import java.sql.Time;
 
-@Entity
+@Entity(name = "path")
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"from_station", "to_station"})})
 public class EntityPath {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "path_id_seq")
@@ -11,13 +12,35 @@ public class EntityPath {
     private int id;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "from_station")
+    @JoinColumn(name = "from_station", nullable = false)
     private EntityStations fromStation;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "to_station")
+    @JoinColumn(name = "to_station", nullable = false)
     private EntityStations toStation;
 
     @Column(nullable = false)
     private Time time;
+
+    public EntityPath(EntityStations fromStation, EntityStations toStation, Time time) {
+        this.fromStation = fromStation;
+        this.toStation = toStation;
+        this.time = time;
+    }
+
+    public EntityStations getFromStation() {
+        return fromStation;
+    }
+
+    public EntityStations getToStation() {
+        return toStation;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
 }

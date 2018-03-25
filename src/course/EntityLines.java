@@ -10,12 +10,29 @@ public class EntityLines {
     @SequenceGenerator(name = "lines_id_seq", sequenceName = "lines_id_seq", allocationSize = 1)
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private int schemeNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String schemeColor;
 
     @OneToMany(mappedBy = "line")
     private Collection<EntityStations> stations;
+
+    public EntityLines(int schemeNumber, String schemeColor) {
+        this.schemeNumber = schemeNumber;
+        this.schemeColor = schemeColor;
+    }
+
+    public int getSchemeNumber() {
+        return schemeNumber;
+    }
+
+    public String getSchemeColor() {
+        return schemeColor;
+    }
+
+    public Collection<EntityStations> getStations() {
+        return stations;
+    }
 }

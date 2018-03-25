@@ -28,7 +28,7 @@ public class EntityUsers {
     private int balance;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "permission_type_id")
+    @JoinColumn(name = "permission_type_id", nullable = false)
     private EntityPermissionTypes userPermissionType;
 
     @OneToMany(mappedBy = "users")

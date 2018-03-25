@@ -11,11 +11,11 @@ public class EntityCards {
     private int id;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "people_id")
+    @JoinColumn(name = "people_id", nullable = false)
     private EntityUsers users;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "type_id", nullable = false)
     private EntityCardTypes cardType;
 
     @Column(nullable = false)
