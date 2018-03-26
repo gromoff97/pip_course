@@ -2,6 +2,19 @@ package course.entity;
 
 import javax.persistence.*;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class describing list of paths can user move.
+ * Contains <strong>start station</strong> (see {@link EntityStations}),
+ * <strong>end station</strong> (see {@link EntityStations})
+ * and <strong>destination time</strong> for each record.
+ * See also {@link course.service.PathService}.
+ **/
+
 @Entity
 @Table(name = "path", uniqueConstraints = {@UniqueConstraint(columnNames = {"from_station", "to_station"})})
 public class EntityPath {

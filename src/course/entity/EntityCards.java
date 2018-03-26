@@ -2,6 +2,18 @@ package course.entity;
 
 import javax.persistence.*;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class describing
+ * list of all <strong>users</strong> (see {@link EntityUsers})
+ * with their <strong>cards</strong> (and it's types, see {@link EntityCardTypes})
+ * and <strong>it's balance</strong>.
+ * See also {@link course.service.CardsService}.
+ **/
 @Entity
 @Table(name = "cards")
 public class EntityCards {

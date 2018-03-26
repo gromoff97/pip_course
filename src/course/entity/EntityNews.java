@@ -4,6 +4,16 @@ package course.entity;
 import javax.persistence.*;
 import java.sql.Date;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class showing list of all news is related to metro
+ * Contains <strong>message</strong> and <strong>Date</strong> for each record (as {@link EntityLostFound} do).
+ * See also {@link course.service.NewsService}.
+ **/
 
 @Entity
 @Table(name = "news")

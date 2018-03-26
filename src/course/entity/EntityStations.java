@@ -3,6 +3,20 @@ package course.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class describing
+ * list of all <strong>metro stations</strong>.
+ * Contains <strong>name</strong>,
+ * it's <strong>line Id<strong/> (see {@link EntityLines})
+ * and <strong>state</strong> (see {@link EntityStationsStates}).
+ * See also {@link course.service.StationsService}.
+ **/
+
 @Entity
 @Table(name = "stations")
 public class EntityStations {

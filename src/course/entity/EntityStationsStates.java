@@ -3,6 +3,16 @@ package course.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class describing list of all <strong>states</strong> stations can be in.
+ * See also {@link course.service.StationStatesService}.
+ **/
+
 @Entity
 @Table(name = "stations_states")
 public class EntityStationsStates {

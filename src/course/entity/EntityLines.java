@@ -3,6 +3,16 @@ package course.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class describing list of all unique <strong>lines</strong> with their unique <strong>color</strong>.
+ * See also {@link course.service.LinesService}.
+ **/
+
 @Entity
 @Table(name = "lines")
 public class EntityLines {

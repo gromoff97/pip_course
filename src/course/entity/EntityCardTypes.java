@@ -3,6 +3,16 @@ package course.entity;
 import javax.persistence.*;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class describing list of all <strong>types</strong> cards can have.
+ * See also {@link course.service.CardTypesService}.
+ **/
+
 @Entity
 @Table(name = "card_types")
 public class EntityCardTypes {

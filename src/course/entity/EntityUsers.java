@@ -4,6 +4,23 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class describing
+ * list of all <strong>metro stations</strong>.
+ * Contains <strong>first name</strong>,
+ * <strong>last name</strong>,
+ * <strong>birth date</strong>,
+ * <strong>e-mail</strong>,
+ * <strong>user balance</strong>,
+ * <strong>permission Id</strong>, (see {@link EntityPermissionTypes}).
+ * See also {@link course.service.StationsService}.
+ **/
+
 @Entity
 @Table(name = "users")
 public class EntityUsers {

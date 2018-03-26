@@ -3,6 +3,16 @@ package course.entity;
 import javax.persistence.*;
 import java.sql.Date;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Entity class showing list of all stuff dissappeared in metro;
+ * Contains <strong>message</strong> and <strong>Date</strong> for each record.
+ * See also {@link course.service.LostFoundService}.
+ **/
 
 @Entity
 @Table(name = "lost_found")
