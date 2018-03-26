@@ -6,6 +6,15 @@ import course.entity.EntityLines;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Service class implementing CRUD Api for {@link EntityLines}.
+ **/
+
 public class LinesService {
 
     public boolean createLine(int number, String color) {

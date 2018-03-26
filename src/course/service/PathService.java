@@ -5,6 +5,15 @@ import course.entity.EntityStations;
 
 import javax.persistence.EntityManager;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Service class implementing CRUD Api for {@link EntityPath}.
+ **/
+
 public class PathService {
 
     public boolean createPath(EntityStations fromStation, EntityStations toStation, int timeInSec){

@@ -7,6 +7,15 @@ import javax.persistence.EntityManager;
 import java.sql.Date;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Service class implementing CRUD Api for {@link EntityUsers}.
+ **/
+
 public class UsersService {
 
     public boolean createUser(String firstName, String lastName, Date birthDate, String eMail, EntityPermissionTypes userPermissionType){

@@ -7,6 +7,15 @@ import javax.persistence.EntityManager;
 import java.sql.Date;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Service class implementing CRUD Api for {@link EntityLostFound}.
+ **/
+
 public class LostFoundService {
 
     public boolean createMessage(String message) {

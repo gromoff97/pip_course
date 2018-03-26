@@ -8,6 +8,15 @@ import course.entity.EntityUsers;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Service class implementing CRUD Api for {@link EntityCards}.
+ **/
+
 public class CardsService {
 
     public boolean createCard(EntityUsers user, EntityCardTypes type) {

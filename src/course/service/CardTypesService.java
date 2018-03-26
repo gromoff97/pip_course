@@ -5,6 +5,15 @@ import course.entity.EntityCardTypes;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
+/**
+ * @author Gromov Anton
+ * @author Yriy Tkachev
+ *
+ * @version 0.9
+ *
+ * Service class implementing CRUD Api for {@link EntityCardTypes}.
+ **/
+
 public class CardTypesService {
 
     public boolean createCardType(String name) {
