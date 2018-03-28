@@ -35,12 +35,11 @@ public class NewsService {
         return true;
     }
 
-    public boolean deletePost(int id){
+    public boolean deletePost(EntityNews post){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("DELETE FROM EntityNews WHERE id = :id")
-                .setParameter("id", id).executeUpdate();
+            em.remove(post);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())
@@ -52,14 +51,11 @@ public class NewsService {
         return true;
     }
 
-    public boolean changePostContent(int id, String newContent) {
+    public boolean changePostContent(EntityNews post, String newContent) {
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("SELECT n FROM EntityNews n WHERE n.id = :id", EntityNews.class)
-                    .setParameter("id", id)
-                    .getSingleResult()
-                    .setContent(newContent);
+            post.setContent(newContent);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())

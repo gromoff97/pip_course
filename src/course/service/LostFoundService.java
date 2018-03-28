@@ -35,12 +35,11 @@ public class LostFoundService {
         return true;
     }
 
-    public boolean deleteMessage(int id){
+    public boolean deleteMessage(EntityLostFound message){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("DELETE FROM EntityLostFound WHERE id = :id")
-                .setParameter("id", id).executeUpdate();
+            em.remove(message);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())

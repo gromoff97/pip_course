@@ -35,12 +35,11 @@ public class UsersService {
         return true;
     }
 
-    public boolean deleteUser(int id){
+    public boolean deleteUser(EntityUsers user){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("DELETE FROM EntityUsers u WHERE u.id = :id")
-                    .setParameter("id", id).executeUpdate();
+            em.remove(user);
             em.getTransaction().commit();
         } catch (Exception e){
             if (em.getTransaction().isActive())
@@ -52,14 +51,11 @@ public class UsersService {
         return true;
     }
 
-    public boolean changeUserEmail(int userId, String nowUserEmail){
+    public boolean changeUserEmail(EntityUsers user, String nowUserEmail){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("SELECT u FROM EntityUsers u WHERE u.id = :id", EntityUsers.class)
-                    .setParameter("id",userId)
-                    .getSingleResult()
-                    .seteMail(nowUserEmail);
+            user.seteMail(nowUserEmail);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())
@@ -71,14 +67,11 @@ public class UsersService {
         return false;
     }
 
-    public boolean changeUserFirstName(int userId, String nowFirstName){
+    public boolean changeUserFirstName(EntityUsers user, String nowFirstName){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("SELECT u FROM EntityUsers u WHERE u.id = :id", EntityUsers.class)
-                    .setParameter("id",userId)
-                    .getSingleResult()
-                    .setFirstName(nowFirstName);
+            user.setFirstName(nowFirstName);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())
@@ -90,14 +83,11 @@ public class UsersService {
         return false;
     }
 
-    public boolean changeUserLastName(int userId, String nowLastName){
+    public boolean changeUserLastName(EntityUsers user, String nowLastName){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("SELECT u FROM EntityUsers u WHERE u.id = :id", EntityUsers.class)
-                    .setParameter("id",userId)
-                    .getSingleResult()
-                    .setLastName(nowLastName);
+            user.setLastName(nowLastName);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())
@@ -109,14 +99,11 @@ public class UsersService {
         return false;
     }
 
-    public boolean changeUserBalance(int userId, int nowBalance){
+    public boolean changeUserBalance(EntityUsers user, int nowBalance){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("SELECT u FROM EntityUsers u WHERE u.id = :id", EntityUsers.class)
-                    .setParameter("id",userId)
-                    .getSingleResult()
-                    .setBalance(nowBalance);
+            user.setBalance(nowBalance);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())
@@ -144,14 +131,14 @@ public class UsersService {
         return result;
     }
 
-    public int getBalanceById(int id){
-        return getUserById(id).getBalance();
-    }
-
     public EntityUsers getUserById(int id){
         EntityManager em = EntityService.getEntityManager();
         EntityUsers result = em.find(EntityUsers.class, id);
         em.close();
         return result;
+    }
+
+    public int getBalanceById(int id){
+        return getUserById(id).getBalance();
     }
 }

@@ -33,12 +33,11 @@ public class PathService {
         return true;
     }
 
-    public boolean deletePath(int id){
+    public boolean deletePath(EntityPath path){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("DELETE FROM EntityPath WHERE id = :id")
-                    .setParameter("id", id).executeUpdate();
+            em.remove(path);
             em.getTransaction().commit();
         } catch (Exception e){
             if (em.getTransaction().isActive())
@@ -50,12 +49,11 @@ public class PathService {
         return true;
     }
 
-    public boolean changePathTime(int id, int newTimeInSec){
+    public boolean changePathTime(EntityPath path, int newTimeInSec){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("SELECT p FROM EntityPath p WHERE p.id = :id", EntityPath.class)
-                    .setParameter("id", id).getSingleResult().setTimeInSec(newTimeInSec);
+            path.setTimeInSec(newTimeInSec);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())

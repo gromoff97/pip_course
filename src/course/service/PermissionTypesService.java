@@ -34,12 +34,11 @@ public class PermissionTypesService {
         return true;
     }
 
-    public boolean deleteType(String typeName){
+    public boolean deleteType(EntityPermissionTypes permType){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("DELETE FROM EntityPermissionTypes WHERE name = :name")
-                    .setParameter("name",typeName).executeUpdate();
+            em.remove(permType);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())
@@ -51,14 +50,11 @@ public class PermissionTypesService {
         return true;
     }
 
-    public boolean changePermissionName(int permId, String nowPermName){
+    public boolean changePermissionName(EntityPermissionTypes permType, String nowPermName){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("SELECT t FROM EntityStationsStates t WHERE t.id = :id", EntityPermissionTypes.class)
-                    .setParameter("id",permId)
-                    .getSingleResult()
-                    .setName(nowPermName);
+            permType.setName(nowPermName);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())

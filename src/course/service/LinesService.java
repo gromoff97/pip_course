@@ -33,12 +33,11 @@ public class LinesService {
         return true;
     }
 
-    public boolean deleteLine(int lineId){
+    public boolean deleteLine(EntityLines line){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("DELETE FROM EntityLines WHERE number = :number")
-                    .setParameter("number", lineId).executeUpdate();
+            em.remove(line);
             em.getTransaction().commit();
         } catch (Exception e){
             if (em.getTransaction().isActive())

@@ -36,12 +36,11 @@ public class CardsService {
         return true;
     }
 
-    public boolean deleteCard(int cardId) {
+    public boolean deleteCard(EntityCards card) {
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("DELETE FROM EntityCards WHERE id = :id")
-                    .setParameter("id", cardId).executeUpdate();
+            em.remove(card);
             em.getTransaction().commit();
         } catch (Exception e){
             if (em.getTransaction().isActive())
@@ -53,12 +52,11 @@ public class CardsService {
         return true;
     }
 
-    public boolean changeCardType(int cardId, EntityCardTypes newType) {
+    public boolean changeCardType(EntityCards card, EntityCardTypes newType) {
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("SELECT c FROM EntityCards c WHERE c.id = :id", EntityCards.class)
-                    .setParameter("id", cardId).getSingleResult().setCardType(newType);
+            card.setCardType(newType);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())

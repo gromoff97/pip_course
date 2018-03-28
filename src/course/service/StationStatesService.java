@@ -33,12 +33,11 @@ public class StationStatesService {
         return true;
     }
 
-    public boolean deleteState(String stateName){
+    public boolean deleteState(EntityStationsStates state){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try {
-            em.createQuery("DELETE FROM EntityStationsStates WHERE name = :name")
-                    .setParameter("name", stateName).executeUpdate();
+            em.remove(state);
             em.getTransaction().commit();
         } catch (Exception e) {
             if (em.getTransaction().isActive())
@@ -50,14 +49,11 @@ public class StationStatesService {
         return true;
     }
 
-    public boolean changeStateName(int stateId, String nowStateName){
+    public boolean changeStateName(EntityStationsStates state, String nowStateName){
         EntityManager em = EntityService.getEntityManager();
         em.getTransaction().begin();
         try{
-        em.createQuery("SELECT t FROM EntityStationsStates t WHERE t.id = :stateId", EntityStationsStates.class)
-                .setParameter("stateId",stateId)
-                .getSingleResult()
-                .setName(nowStateName);
+            state.setName(nowStateName);
             em.getTransaction().commit();
         }
         catch (Exception e) {
