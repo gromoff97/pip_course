@@ -3,6 +3,7 @@ package course.service;
 
 import course.entity.EntityPermissionTypes;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
@@ -15,6 +16,7 @@ import java.util.Collection;
  * Service class implementing CRUD Api for {@link EntityPermissionTypes}.
  **/
 
+@Stateless
 public class PermissionTypesService {
 
     public boolean createType(String typeName){

@@ -5,6 +5,7 @@ import course.entity.EntityCardTypes;
 import course.entity.EntityCards;
 import course.entity.EntityUsers;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
@@ -17,6 +18,7 @@ import java.util.Collection;
  * Service class implementing CRUD Api for {@link EntityCards}.
  **/
 
+@Stateless
 public class CardsService {
 
     public boolean createCard(EntityUsers user, EntityCardTypes type) {

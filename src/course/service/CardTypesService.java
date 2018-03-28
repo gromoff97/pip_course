@@ -2,6 +2,7 @@ package course.service;
 
 import course.entity.EntityCardTypes;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
@@ -14,6 +15,7 @@ import java.util.Collection;
  * Service class implementing CRUD Api for {@link EntityCardTypes}.
  **/
 
+@Stateless
 public class CardTypesService {
 
     public boolean createCardType(String name) {

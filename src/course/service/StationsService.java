@@ -4,6 +4,7 @@ import course.entity.EntityLines;
 import course.entity.EntityStations;
 import course.entity.EntityStationsStates;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 
@@ -16,6 +17,7 @@ import java.util.Collection;
  * Service class implementing CRUD Api for {@link EntityStations}.
  **/
 
+@Stateless
 public class StationsService {
 
     public boolean createStation(String name, EntityLines line, EntityStationsStates state) {

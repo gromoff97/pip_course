@@ -2,6 +2,7 @@ package course.service;
 
 import course.entity.EntityLostFound;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import java.sql.Date;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.Collection;
  * Service class implementing CRUD Api for {@link EntityLostFound}.
  **/
 
+@Stateless
 public class LostFoundService {
 
     public boolean createMessage(String message) {

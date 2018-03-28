@@ -3,6 +3,7 @@ package course.service;
 import course.entity.EntityPermissionTypes;
 import course.entity.EntityUsers;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import java.sql.Date;
 import java.util.Collection;
@@ -16,6 +17,7 @@ import java.util.Collection;
  * Service class implementing CRUD Api for {@link EntityUsers}.
  **/
 
+@Stateless
 public class UsersService {
 
     public boolean createUser(String firstName, String lastName, Date birthDate, String eMail, EntityPermissionTypes userPermissionType){

@@ -3,6 +3,7 @@ package course.service;
 import course.entity.EntityPath;
 import course.entity.EntityStations;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.EntityManager;
  * Service class implementing CRUD Api for {@link EntityPath}.
  **/
 
+@Stateless
 public class PathService {
 
     public boolean createPath(EntityStations fromStation, EntityStations toStation, int timeInSec){
