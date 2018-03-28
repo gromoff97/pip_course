@@ -7,9 +7,11 @@ import javax.persistence.Persistence;
 public class EntityService {
     private static EntityManagerFactory entityManagerFactory;
 
-    private EntityService() {
+    static {
         entityManagerFactory = Persistence.createEntityManagerFactory("course.database");
     }
+
+    private EntityService() {}
 
     public static EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
