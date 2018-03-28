@@ -68,9 +68,7 @@ public class LinesService {
 
     public EntityLines getLineById(int id){
         EntityManager em = EntityService.getEntityManager();
-        EntityLines result = em.createQuery("SELECT l FROM EntityLines l where l.id = :id",EntityLines.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        EntityLines result = em.find(EntityLines.class, id);
         em.close();
         return result;
     }

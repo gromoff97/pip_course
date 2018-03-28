@@ -61,9 +61,7 @@ public class LostFoundService {
 
     public EntityLostFound getMessageById(int id){
         EntityManager em = EntityService.getEntityManager();
-        EntityLostFound result = em.createQuery("SELECT lf FROM EntityLostFound lf where lf.id = :id", EntityLostFound.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        EntityLostFound result = em.find(EntityLostFound.class, id);
         em.close();
         return result;
     }

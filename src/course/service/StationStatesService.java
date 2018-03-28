@@ -88,9 +88,7 @@ public class StationStatesService {
 
     public EntityStationsStates getStateById(int id){
         EntityManager em = EntityService.getEntityManager();
-        EntityStationsStates result = em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.id = :id", EntityStationsStates.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        EntityStationsStates result = em.find(EntityStationsStates.class, id);
         em.close();
         return result;
     }

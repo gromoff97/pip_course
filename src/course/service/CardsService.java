@@ -80,9 +80,7 @@ public class CardsService {
 
     public EntityCards getCardsById(int id){
         EntityManager em = EntityService.getEntityManager();
-        EntityCards result = em.createQuery("SELECT c FROM EntityCards c where c.id = :id",EntityCards.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        EntityCards result = em.find(EntityCards.class, id);
         em.close();
         return result;
     }

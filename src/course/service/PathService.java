@@ -79,9 +79,7 @@ public class PathService {
 
     public EntityPath getPathById(int id){
         EntityManager em = EntityService.getEntityManager();
-        EntityPath result = em.createQuery("SELECT p FROM EntityPath p where p.id = :id", EntityPath.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        EntityPath result = em.find(EntityPath.class, id);
         em.close();
         return result;
     }

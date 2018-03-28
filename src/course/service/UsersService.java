@@ -150,9 +150,7 @@ public class UsersService {
 
     public EntityUsers getUserById(int id){
         EntityManager em = EntityService.getEntityManager();
-        EntityUsers result = em.createQuery("SELECT u FROM EntityUsers u where u.id = :id", EntityUsers.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        EntityUsers result = em.find(EntityUsers.class, id);
         em.close();
         return result;
     }
