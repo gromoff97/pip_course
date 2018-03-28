@@ -13,7 +13,7 @@ public class EntityService {
 
     private EntityService() {}
 
-    public static EntityManager getEntityManager() {
+    public synchronized static EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
 }
