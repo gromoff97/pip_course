@@ -86,4 +86,13 @@ public class PermissionTypesService {
         return result;
     }
 
+    public EntityPermissionTypes getPermTypeById(int id){
+        EntityManager em = EntityService.getEntityManager();
+        EntityPermissionTypes result = em.createQuery("SELECT pt FROM EntityPermissionTypes pt where pt.id = :id", EntityPermissionTypes.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        em.close();
+        return result;
+    }
+
 }

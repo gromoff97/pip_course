@@ -1,6 +1,5 @@
 package course.service;
 
-import course.entity.EntityLines;
 import course.entity.EntityStationsStates;
 
 import javax.persistence.EntityManager;
@@ -82,6 +81,15 @@ public class StationStatesService {
         EntityManager em = EntityService.getEntityManager();
         EntityStationsStates result = em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.name = :name", EntityStationsStates.class)
                 .setParameter("name", name)
+                .getSingleResult();
+        em.close();
+        return result;
+    }
+
+    public EntityStationsStates getStateById(int id){
+        EntityManager em = EntityService.getEntityManager();
+        EntityStationsStates result = em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.id = :id", EntityStationsStates.class)
+                .setParameter("id", id)
                 .getSingleResult();
         em.close();
         return result;

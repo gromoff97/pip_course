@@ -6,7 +6,6 @@ import course.entity.EntityCards;
 import course.entity.EntityUsers;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import java.util.Collection;
 
 /**
@@ -75,6 +74,15 @@ public class CardsService {
         EntityManager em = EntityService.getEntityManager();
         Collection<EntityCards> result = em.createQuery("SELECT c FROM EntityCards c", EntityCards.class)
                 .getResultList();
+        em.close();
+        return result;
+    }
+
+    public EntityCards getCardsById(int id){
+        EntityManager em = EntityService.getEntityManager();
+        EntityCards result = em.createQuery("SELECT c FROM EntityCards c where c.id = :id",EntityCards.class)
+                .setParameter("id", id)
+                .getSingleResult();
         em.close();
         return result;
     }

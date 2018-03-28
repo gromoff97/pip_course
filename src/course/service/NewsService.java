@@ -78,4 +78,13 @@ public class NewsService {
         return result;
     }
 
+    public EntityNews getPostById(int id){
+        EntityManager em = EntityService.getEntityManager();
+        EntityNews result = em.createQuery("SELECT p FROM EntityNews p where p.id = :id", EntityNews.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        em.close();
+        return result;
+    }
+
 }

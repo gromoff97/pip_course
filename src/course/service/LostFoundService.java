@@ -58,4 +58,13 @@ public class LostFoundService {
         em.close();
         return result;
     }
+
+    public EntityLostFound getMessageById(int id){
+        EntityManager em = EntityService.getEntityManager();
+        EntityLostFound result = em.createQuery("SELECT lf FROM EntityLostFound lf where lf.id = :id", EntityLostFound.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        em.close();
+        return result;
+    }
 }

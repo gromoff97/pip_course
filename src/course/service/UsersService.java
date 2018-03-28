@@ -145,13 +145,15 @@ public class UsersService {
     }
 
     public int getBalanceById(int id){
+        return getUserById(id).getBalance();
+    }
+
+    public EntityUsers getUserById(int id){
         EntityManager em = EntityService.getEntityManager();
-        int result = em.createQuery("SELECT l.balance FROM EntityUsers l where l.id = :id",int.class)
-                .setParameter("id",id)
+        EntityUsers result = em.createQuery("SELECT u FROM EntityUsers u where u.id = :id", EntityUsers.class)
+                .setParameter("id", id)
                 .getSingleResult();
         em.close();
         return result;
     }
-
-
 }

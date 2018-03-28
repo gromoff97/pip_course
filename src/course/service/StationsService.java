@@ -102,4 +102,13 @@ public class StationsService {
         em.close();
         return result;
     }
+
+    public EntityStations getStationById(int id){
+        EntityManager em = EntityService.getEntityManager();
+        EntityStations result = em.createQuery("SELECT s FROM EntityStations s where s.id = :id", EntityStations.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        em.close();
+        return result;
+    }
 }

@@ -82,4 +82,13 @@ public class CardTypesService {
         em.close();
         return result;
     }
+
+    public EntityCardTypes getCardTypeById(int id){
+        EntityManager em = EntityService.getEntityManager();
+        EntityCardTypes result = em.createQuery("SELECT ct FROM EntityCardTypes ct where ct.id = :id",EntityCardTypes.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        em.close();
+        return result;
+    }
 }

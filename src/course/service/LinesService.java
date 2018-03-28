@@ -1,6 +1,5 @@
 package course.service;
 
-import com.google.gson.Gson;
 import course.entity.EntityLines;
 
 import javax.persistence.EntityManager;
@@ -62,6 +61,15 @@ public class LinesService {
         EntityManager em = EntityService.getEntityManager();
         EntityLines result = em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
                 .setParameter("color",color)
+                .getSingleResult();
+        em.close();
+        return result;
+    }
+
+    public EntityLines getLineById(int id){
+        EntityManager em = EntityService.getEntityManager();
+        EntityLines result = em.createQuery("SELECT l FROM EntityLines l where l.id = :id",EntityLines.class)
+                .setParameter("id", id)
                 .getSingleResult();
         em.close();
         return result;
