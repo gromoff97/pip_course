@@ -6,6 +6,7 @@ import course.entity.EntityCards;
 import course.entity.EntityUsers;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.Collection;
 
 /**
@@ -25,11 +26,14 @@ public class CardsService {
         em.getTransaction().begin();
         try {
             em.persist(card);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -39,11 +43,14 @@ public class CardsService {
         try {
             em.createQuery("DELETE FROM EntityCards WHERE id = :id")
                     .setParameter("id", cardId).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e){
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -53,17 +60,22 @@ public class CardsService {
         try {
             em.createQuery("SELECT c FROM EntityCards c WHERE c.id = :id", EntityCards.class)
                     .setParameter("id", cardId).getSingleResult().setCardType(newType);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public Collection<EntityCards> getCards() {
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT c FROM EntityCards c", EntityCards.class)
+        Collection<EntityCards> result = em.createQuery("SELECT c FROM EntityCards c", EntityCards.class)
                 .getResultList();
+        em.close();
+        return result;
     }
 }

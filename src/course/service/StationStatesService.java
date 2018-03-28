@@ -23,11 +23,14 @@ public class StationStatesService {
         em.getTransaction().begin();
         try {
             em.persist(state);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -37,11 +40,14 @@ public class StationStatesService {
         try {
             em.createQuery("DELETE FROM EntityStationsStates WHERE name = :name")
                     .setParameter("name", stateName).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -53,25 +59,32 @@ public class StationStatesService {
                 .setParameter("stateId",stateId)
                 .getSingleResult()
                 .setName(nowStateName);
+            em.getTransaction().commit();
         }
         catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public Collection<EntityStationsStates> getStates() {
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT ss FROM EntityStationsStates ss",EntityStationsStates.class).getResultList();
+        Collection<EntityStationsStates> result = em.createQuery("SELECT ss FROM EntityStationsStates ss",EntityStationsStates.class).getResultList();
+        em.close();
+        return result;
     }
 
     public EntityStationsStates getStateByName(String name) {
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.name = :name", EntityStationsStates.class)
+        EntityStationsStates result = em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.name = :name", EntityStationsStates.class)
                 .setParameter("name", name)
                 .getSingleResult();
+        em.close();
+        return result;
     }
 
 }

@@ -24,11 +24,14 @@ public class StationsService {
         em.getTransaction().begin();
         try {
             em.persist(stations);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -38,11 +41,14 @@ public class StationsService {
         try {
             em.createQuery("DELETE FROM EntityStations WHERE id = :id")
                     .setParameter("id", id).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e){
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -52,11 +58,14 @@ public class StationsService {
         try {
             em.createQuery("SELECT s FROM EntityStations s WHERE s.id = :id", EntityStations.class)
                     .setParameter("id", id).getSingleResult().setName(newName);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -66,24 +75,31 @@ public class StationsService {
         try {
             em.createQuery("SELECT s FROM EntityStations s WHERE s.id = :id", EntityStations.class)
                     .setParameter("id", id).getSingleResult().setState(newState);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public Collection<EntityStations> getStations() {
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT s FROM EntityStations s", EntityStations.class)
+        Collection<EntityStations> result = em.createQuery("SELECT s FROM EntityStations s", EntityStations.class)
                 .getResultList();
+        em.close();
+        return result;
     }
 
     public EntityStations getStationByName(String name) {
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT s FROM EntityStations s where s.name = :name", EntityStations.class)
+        EntityStations result = em.createQuery("SELECT s FROM EntityStations s where s.name = :name", EntityStations.class)
                 .setParameter("name", name)
                 .getSingleResult();
+        em.close();
+        return result;
     }
 }

@@ -23,11 +23,14 @@ public class LinesService {
         em.getTransaction().begin();
         try{
             em.persist(line);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -37,24 +40,31 @@ public class LinesService {
         try {
             em.createQuery("DELETE FROM EntityLines WHERE number = :number")
                     .setParameter("number", lineId).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e){
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public Collection<EntityLines> getLines(){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT l FROM EntityLines l",EntityLines.class).getResultList();
+        Collection<EntityLines> result = em.createQuery("SELECT l FROM EntityLines l",EntityLines.class).getResultList();
+        em.close();
+        return result;
     }
 
     public EntityLines getLineByColor(String color){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
+        EntityLines result = em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
                 .setParameter("color",color)
                 .getSingleResult();
+        em.close();
+        return result;
     }
 
 }

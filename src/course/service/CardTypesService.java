@@ -22,11 +22,14 @@ public class CardTypesService {
         em.getTransaction().begin();
         try {
             em.persist(cardType);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -36,11 +39,14 @@ public class CardTypesService {
         try {
             em.createQuery("DELETE FROM EntityCardTypes WHERE id = :id")
                     .setParameter("id", id).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -50,23 +56,30 @@ public class CardTypesService {
         try {
             em.createQuery("SELECT t FROM EntityCardTypes t WHERE t.id = :id", EntityCardTypes.class)
                     .setParameter("id", id).getSingleResult().setName(newName);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public Collection<EntityCardTypes> getCardTypes(){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT ct FROM EntityCardTypes ct",EntityCardTypes.class).getResultList();
+        Collection<EntityCardTypes> result = em.createQuery("SELECT ct FROM EntityCardTypes ct",EntityCardTypes.class).getResultList();
+        em.close();
+        return result;
     }
 
     public EntityCardTypes getCardTypeByName(String name){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT ct FROM EntityCardTypes ct where ct.name = :name",EntityCardTypes.class)
+        EntityCardTypes result = em.createQuery("SELECT ct FROM EntityCardTypes ct where ct.name = :name",EntityCardTypes.class)
                 .setParameter("name",name)
                 .getSingleResult();
+        em.close();
+        return result;
     }
 }

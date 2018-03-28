@@ -24,11 +24,14 @@ public class UsersService {
         em.getTransaction().begin();
         try{
             em.persist(user);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -38,11 +41,14 @@ public class UsersService {
         try {
             em.createQuery("DELETE FROM EntityUsers u WHERE u.id = :id")
                     .setParameter("id", id).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e){
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -54,11 +60,14 @@ public class UsersService {
                     .setParameter("id",userId)
                     .getSingleResult()
                     .seteMail(nowUserEmail);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return false;
     }
 
@@ -70,11 +79,14 @@ public class UsersService {
                     .setParameter("id",userId)
                     .getSingleResult()
                     .setFirstName(nowFirstName);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return false;
     }
 
@@ -86,11 +98,14 @@ public class UsersService {
                     .setParameter("id",userId)
                     .getSingleResult()
                     .setLastName(nowLastName);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return false;
     }
 
@@ -102,31 +117,40 @@ public class UsersService {
                     .setParameter("id",userId)
                     .getSingleResult()
                     .setBalance(nowBalance);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return false;
     }
 
     public Collection<EntityUsers> getUsers() {
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT l FROM EntityUsers l",EntityUsers.class).getResultList();
+        Collection<EntityUsers> result = em.createQuery("SELECT l FROM EntityUsers l",EntityUsers.class).getResultList();
+        em.close();
+        return result;
     }
 
     public EntityUsers getUserByEmail(String Email){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT l FROM EntityUsers l where l.eMail = :mail",EntityUsers.class)
+        EntityUsers result = em.createQuery("SELECT l FROM EntityUsers l where l.eMail = :mail",EntityUsers.class)
                 .setParameter("mail",Email)
                 .getSingleResult();
+        em.close();
+        return result;
     }
 
     public int getBalanceById(int id){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT l.balance FROM EntityUsers l where l.id = :id",int.class)
+        int result = em.createQuery("SELECT l.balance FROM EntityUsers l where l.id = :id",int.class)
                 .setParameter("id",id)
                 .getSingleResult();
+        em.close();
+        return result;
     }
 
 

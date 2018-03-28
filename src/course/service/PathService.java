@@ -22,11 +22,14 @@ public class PathService {
         em.getTransaction().begin();
         try {
             em.persist(path);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -36,11 +39,14 @@ public class PathService {
         try {
             em.createQuery("DELETE FROM EntityPath WHERE id = :id")
                     .setParameter("id", id).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e){
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -50,20 +56,25 @@ public class PathService {
         try {
             em.createQuery("SELECT p FROM EntityPath p WHERE p.id = :id", EntityPath.class)
                     .setParameter("id", id).getSingleResult().setTimeInSec(newTimeInSec);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public EntityPath getPathFromTo(EntityStations fromSt, EntityStations toSt) {
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT p FROM EntityPath p where p.fromStation = :st1 and p.toStation = :st2", EntityPath.class)
+        EntityPath result = em.createQuery("SELECT p FROM EntityPath p where p.fromStation = :st1 and p.toStation = :st2", EntityPath.class)
                 .setParameter("st1", fromSt)
                 .setParameter("st2", toSt)
                 .getSingleResult();
+        em.close();
+        return result;
     }
 
 }

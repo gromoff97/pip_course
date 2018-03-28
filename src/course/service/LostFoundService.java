@@ -24,11 +24,14 @@ public class LostFoundService {
         em.getTransaction().begin();
         try {
             em.persist(lostFound);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -38,16 +41,21 @@ public class LostFoundService {
         try {
             em.createQuery("DELETE FROM EntityLostFound WHERE id = :id")
                 .setParameter("id", id).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public Collection<EntityLostFound> getMessages(){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT lf FROM EntityLostFound lf",EntityLostFound.class).getResultList();
+        Collection<EntityLostFound> result = em.createQuery("SELECT lf FROM EntityLostFound lf",EntityLostFound.class).getResultList();
+        em.close();
+        return result;
     }
 }

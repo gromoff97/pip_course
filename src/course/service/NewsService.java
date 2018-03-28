@@ -24,11 +24,14 @@ public class NewsService {
         em.getTransaction().begin();
         try {
             em.persist(post);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -38,11 +41,14 @@ public class NewsService {
         try {
             em.createQuery("DELETE FROM EntityNews WHERE id = :id")
                 .setParameter("id", id).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -54,17 +60,22 @@ public class NewsService {
                     .setParameter("id", id)
                     .getSingleResult()
                     .setContent(newContent);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
     public Collection<EntityNews> getPosts(){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT n FROM EntityNews n",EntityNews.class).getResultList();
+        Collection<EntityNews> result = em.createQuery("SELECT n FROM EntityNews n",EntityNews.class).getResultList();
+        em.close();
+        return result;
     }
 
 }

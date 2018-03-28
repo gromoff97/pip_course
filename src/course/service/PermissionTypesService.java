@@ -23,11 +23,14 @@ public class PermissionTypesService {
         em.getTransaction().begin();
         try {
             em.persist(permType);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -37,11 +40,14 @@ public class PermissionTypesService {
         try {
             em.createQuery("DELETE FROM EntityPermissionTypes WHERE name = :name")
                     .setParameter("name",typeName).executeUpdate();
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return true;
     }
 
@@ -53,24 +59,31 @@ public class PermissionTypesService {
                     .setParameter("id",permId)
                     .getSingleResult()
                     .setName(nowPermName);
+            em.getTransaction().commit();
         } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
             return false;
+        } finally {
+            em.close();
         }
-        em.getTransaction().commit();
-        em.close();
         return false;
     }
 
     public Collection<EntityPermissionTypes> getPermTypes(){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT pt FROM EntityPermissionTypes pt",EntityPermissionTypes.class).getResultList();
+        Collection<EntityPermissionTypes> result = em.createQuery("SELECT pt FROM EntityPermissionTypes pt",EntityPermissionTypes.class).getResultList();
+        em.close();
+        return result;
     }
 
     public EntityPermissionTypes getPermTypeByName(String name){
         EntityManager em = EntityService.getEntityManager();
-        return em.createQuery("SELECT pt FROM EntityPermissionTypes pt where pt.name = :name",EntityPermissionTypes.class)
+        EntityPermissionTypes result = em.createQuery("SELECT pt FROM EntityPermissionTypes pt where pt.name = :name",EntityPermissionTypes.class)
                 .setParameter("name",name)
                 .getSingleResult();
+        em.close();
+        return result;
     }
 
 }
