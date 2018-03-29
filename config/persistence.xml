@@ -1,28 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
-    <persistence-unit name="course.database" transaction-type="RESOURCE_LOCAL">
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-        <class>course.entity.EntityCards</class>
-        <class>course.entity.EntityCardTypes</class>
-        <class>course.entity.EntityLines</class>
-        <class>course.entity.EntityLostFound</class>
-        <class>course.entity.EntityNews</class>
-        <class>course.entity.EntityPath</class>
-        <class>course.entity.EntityPermissionTypes</class>
-        <class>course.entity.EntityStations</class>
+    <persistence-unit name="course.database" transaction-type="JTA">
+        <jta-data-source>jdbc/studs</jta-data-source>
         <class>course.entity.EntityStationsStates</class>
-        <class>course.entity.EntityUsers</class>
-
         <properties>
-            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/studs"/>
-            <property name="hibernate.connection.username" value="s207544"/>
-            <property name="hibernate.connection.password" value="vup125"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>
+            <property name="javax.persistence.schema-generation.database.action"
+                      value="drop-and-create"/>
         </properties>
     </persistence-unit>
 

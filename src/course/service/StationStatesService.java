@@ -3,7 +3,9 @@ package course.service;
 import course.entity.EntityStationsStates;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Collection;
 
 /**
@@ -16,79 +18,52 @@ import java.util.Collection;
  **/
 
 @Stateless
+@TransactionManagement
 public class StationStatesService {
+    @PersistenceContext
+    private EntityManager em;
 
     public boolean createState(String stateName){
-        EntityManager em = EntityService.getEntityManager();
         EntityStationsStates state = new EntityStationsStates(stateName);
-        em.getTransaction().begin();
         try {
             em.persist(state);
-            em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public boolean deleteState(EntityStationsStates state){
-        EntityManager em = EntityService.getEntityManager();
-        em.getTransaction().begin();
         try {
             em.remove(state);
-            em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public boolean changeStateName(EntityStationsStates state, String nowStateName){
-        EntityManager em = EntityService.getEntityManager();
-        em.getTransaction().begin();
         try{
             state.setName(nowStateName);
-            em.getTransaction().commit();
         }
         catch (Exception e) {
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public Collection<EntityStationsStates> getStates() {
-        EntityManager em = EntityService.getEntityManager();
-        Collection<EntityStationsStates> result = em.createQuery("SELECT ss FROM EntityStationsStates ss",EntityStationsStates.class).getResultList();
-        em.close();
-        return result;
+        return em.createQuery("SELECT ss FROM EntityStationsStates ss",EntityStationsStates.class).getResultList();
     }
 
     public EntityStationsStates getStateByName(String name) {
-        EntityManager em = EntityService.getEntityManager();
-        EntityStationsStates result = em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.name = :name", EntityStationsStates.class)
+        return em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.name = :name", EntityStationsStates.class)
                 .setParameter("name", name)
                 .getSingleResult();
-        em.close();
-        return result;
     }
 
     public EntityStationsStates getStateById(int id){
-        EntityManager em = EntityService.getEntityManager();
-        EntityStationsStates result = em.find(EntityStationsStates.class, id);
-        em.close();
-        return result;
+        return em.find(EntityStationsStates.class, id);
     }
 
 }

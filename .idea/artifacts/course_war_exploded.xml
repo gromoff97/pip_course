@@ -8,8 +8,7 @@
           <element id="jpa-descriptors" facet="course/jpa/JPA" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Hibernate 5.2.14-5.2.14" />
-          <element id="library" level="project" name="postgresql-42.2.2" />
+          <element id="library" level="project" name="com.google.code.gson:gson:2.8.2" />
         </element>
       </element>
     </root>

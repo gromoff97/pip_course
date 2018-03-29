@@ -3,7 +3,9 @@ package course.service;
 import course.entity.EntityLines;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Collection;
 
 /**
@@ -16,62 +18,42 @@ import java.util.Collection;
  **/
 
 @Stateless
+@TransactionManagement
 public class LinesService {
+    @PersistenceContext
+    private EntityManager em;
 
     public boolean createLine(int number, String color) {
-        EntityManager em = EntityService.getEntityManager();
         EntityLines line = new EntityLines(number, color);
-        em.getTransaction().begin();
         try{
             em.persist(line);
-            em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public boolean deleteLine(EntityLines line){
-        EntityManager em = EntityService.getEntityManager();
-        em.getTransaction().begin();
         try {
             em.remove(line);
-            em.getTransaction().commit();
         } catch (Exception e){
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public Collection<EntityLines> getLines(){
-        EntityManager em = EntityService.getEntityManager();
-        Collection<EntityLines> result = em.createQuery("SELECT l FROM EntityLines l",EntityLines.class).getResultList();
-        em.close();
-        return result;
+        return em.createQuery("SELECT l FROM EntityLines l",EntityLines.class).getResultList();
     }
 
     public EntityLines getLineByColor(String color){
-        EntityManager em = EntityService.getEntityManager();
-        EntityLines result = em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
+        return em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
                 .setParameter("color",color)
                 .getSingleResult();
-        em.close();
-        return result;
     }
 
     public EntityLines getLineById(int id){
-        EntityManager em = EntityService.getEntityManager();
-        EntityLines result = em.find(EntityLines.class, id);
-        em.close();
-        return result;
+        return em.find(EntityLines.class, id);
     }
 
 }

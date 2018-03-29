@@ -29,7 +29,6 @@
     <orderEntry type="library" scope="PROVIDED" name="GlassFish 5.0.0 - RESTful Web Service" level="application_server_libraries" />
     <orderEntry type="library" scope="PROVIDED" name="GlassFish 5.0.0 - EJB" level="application_server_libraries" />
     <orderEntry type="library" name="Hibernate 5.2.14-5.2.14" level="project" />
-    <orderEntry type="library" name="postgresql-42.2.2" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.2" level="project" />
   </component>
 </module>

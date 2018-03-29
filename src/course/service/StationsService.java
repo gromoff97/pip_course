@@ -5,7 +5,9 @@ import course.entity.EntityStations;
 import course.entity.EntityStationsStates;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Collection;
 
 /**
@@ -18,94 +20,60 @@ import java.util.Collection;
  **/
 
 @Stateless
+@TransactionManagement
 public class StationsService {
+    @PersistenceContext
+    private EntityManager em;
 
     public boolean createStation(String name, EntityLines line, EntityStationsStates state) {
-        EntityManager em = EntityService.getEntityManager();
         EntityStations stations = new EntityStations(name, line, state);
-        em.getTransaction().begin();
         try {
             em.persist(stations);
-            em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public boolean deleteStation(EntityStations station) {
-        EntityManager em = EntityService.getEntityManager();
-        em.getTransaction().begin();
         try {
             em.remove(station);
-            em.getTransaction().commit();
         } catch (Exception e){
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public boolean changeStationName(EntityStations station, String newName){
-        EntityManager em = EntityService.getEntityManager();
-        em.getTransaction().begin();
         try {
             station.setName(newName);
-            em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public boolean changeStationState(EntityStations station, EntityStationsStates newState){
-        EntityManager em = EntityService.getEntityManager();
-        em.getTransaction().begin();
         try {
             station.setState(newState);
-            em.getTransaction().commit();
         } catch (Exception e) {
-            if (em.getTransaction().isActive())
-                em.getTransaction().rollback();
             return false;
-        } finally {
-            em.close();
         }
         return true;
     }
 
     public Collection<EntityStations> getStations() {
-        EntityManager em = EntityService.getEntityManager();
-        Collection<EntityStations> result = em.createQuery("SELECT s FROM EntityStations s", EntityStations.class)
+        return em.createQuery("SELECT s FROM EntityStations s", EntityStations.class)
                 .getResultList();
-        em.close();
-        return result;
     }
 
     public EntityStations getStationByName(String name) {
-        EntityManager em = EntityService.getEntityManager();
-        EntityStations result = em.createQuery("SELECT s FROM EntityStations s where s.name = :name", EntityStations.class)
+        return em.createQuery("SELECT s FROM EntityStations s where s.name = :name", EntityStations.class)
                 .setParameter("name", name)
                 .getSingleResult();
-        em.close();
-        return result;
     }
 
     public EntityStations getStationById(int id){
-        EntityManager em = EntityService.getEntityManager();
-        EntityStations result = em.find(EntityStations.class, id);
-        em.close();
-        return result;
+        return em.find(EntityStations.class, id);
     }
 }

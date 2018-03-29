@@ -10,6 +10,7 @@ public class RESTConfig extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<>();
+        s.add(Test.class);
         return s;
     }
 }
