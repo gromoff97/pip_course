@@ -40,7 +40,7 @@ public class StationsStatesResource {
     }
 
     @GET
-    @Path("change/{id}/{name}")
+    @Path("change/{id}/name/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeStateName(@PathParam("id")int id, @PathParam("name")String name) {
         return stationStates.changeStateName(stationStates.getStateById(id), name);

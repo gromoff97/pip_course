@@ -36,7 +36,44 @@ public class StationsResource {
     @GET
     @Path("add/{name}/{line}/{state}")
     @Produces(MediaType.TEXT_PLAIN)
-    public boolean getAllStations(@PathParam("name")String name, @PathParam("line")int line,@PathParam("state")int state) {
+    public boolean addStation(@PathParam("name")String name, @PathParam("line")int line,@PathParam("state")int state) {
         return stations.createStation(name, lines.getLineById(line), stationStates.getStateById(state));
+    }
+
+    @GET
+    @Path("rm/{id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public boolean deleteStation(@PathParam("id")int id) {
+        return stations.deleteStation(stations.getStationById(id));
+    }
+
+    @GET
+    @Path("change/{id}/name/{name}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public boolean changeStationName(@PathParam("id")int id, @PathParam("name")String name) {
+        return stations.changeStationName(stations.getStationById(id), name);
+    }
+
+    @GET
+    @Path("change/{id}/state/{state}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public boolean changeStationState(@PathParam("id")int id, @PathParam("state")int state) {
+        return stations.changeStationState(stations.getStationById(id), stationStates.getStateById(state));
+    }
+
+    @GET
+    @Path("name/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getStationByName(@PathParam("name")String name) {
+        Gson gson = new Gson();
+        return gson.toJson(stations.getStationByName(name));
+    }
+
+    @GET
+    @Path("id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getStationById(@PathParam("id")int id) {
+        Gson gson = new Gson();
+        return gson.toJson(stations.getStationById(id));
     }
 }
