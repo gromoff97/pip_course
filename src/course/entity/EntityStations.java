@@ -1,7 +1,6 @@
 package course.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 /**
  * @author Gromov Anton
@@ -36,12 +35,6 @@ public class EntityStations {
     @JoinColumn(name = "state_id", nullable = false)
     private EntityStationsStates state;
 
-    @OneToMany(mappedBy = "fromStation")
-    private Collection<EntityPath> pathFrom;
-
-    @OneToMany(mappedBy = "toStation")
-    private Collection<EntityPath> pathTo;
-
     public EntityStations() {
     }
 
@@ -61,14 +54,6 @@ public class EntityStations {
 
     public EntityStationsStates getState() {
         return state;
-    }
-
-    public Collection<EntityPath> getPathFrom() {
-        return pathFrom;
-    }
-
-    public Collection<EntityPath> getPathTo() {
-        return pathTo;
     }
 
     public void setName(String name) {

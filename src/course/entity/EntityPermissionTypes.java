@@ -1,7 +1,6 @@
 package course.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 /**
  * @author Gromov Anton
@@ -25,9 +24,6 @@ public class EntityPermissionTypes {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "userPermissionType")
-    private Collection<EntityUsers> users;
-
     public EntityPermissionTypes() {
     }
 
@@ -37,10 +33,6 @@ public class EntityPermissionTypes {
 
     public String getName() {
         return name;
-    }
-
-    public Collection<EntityUsers> getUsers() {
-        return users;
     }
 
     public void setName(String name) {

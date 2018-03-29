@@ -1,7 +1,6 @@
 package course.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 /**
  * @author Gromov Anton
@@ -27,9 +26,6 @@ public class EntityLines {
     @Column(nullable = false, unique = true)
     private String schemeColor;
 
-    @OneToMany(mappedBy = "line")
-    private Collection<EntityStations> stations;
-
     public EntityLines() {
     }
 
@@ -44,9 +40,5 @@ public class EntityLines {
 
     public String getSchemeColor() {
         return schemeColor;
-    }
-
-    public Collection<EntityStations> getStations() {
-        return stations;
     }
 }

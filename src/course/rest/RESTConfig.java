@@ -11,6 +11,8 @@ public class RESTConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<>();
         s.add(StationsStatesResource.class);
+        s.add(LinesResource.class);
+        s.add(StationsResource.class);
         return s;
     }
 }
