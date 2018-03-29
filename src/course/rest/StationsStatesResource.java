@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 @Stateless
 @Path("states")
-public class Test {
+public class StationsStatesResource {
     @EJB
     private StationStatesService stationStates;
 
@@ -33,9 +33,32 @@ public class Test {
     }
 
     @GET
+    @Path("rm/{id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public boolean deleteState(@PathParam("id")int id) {
+        return stationStates.deleteState(stationStates.getStateById(id));
+    }
+
+    @GET
     @Path("change/{id}/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeStateName(@PathParam("id")int id, @PathParam("name")String name) {
         return stationStates.changeStateName(stationStates.getStateById(id), name);
+    }
+
+    @GET
+    @Path("name/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getStateByName(@PathParam("name")String name) {
+        Gson gson = new Gson();
+        return gson.toJson(stationStates.getStateByName(name));
+    }
+
+    @GET
+    @Path("id/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getStateById(@PathParam("id")int id) {
+        Gson gson = new Gson();
+        return gson.toJson(stationStates.getStateById(id));
     }
 }

@@ -6,7 +6,7 @@
         <class>course.entity.EntityStationsStates</class>
         <properties>
             <property name="javax.persistence.schema-generation.database.action"
-                      value="drop-and-create"/>
+                      value="create"/>
         </properties>
     </persistence-unit>
 
