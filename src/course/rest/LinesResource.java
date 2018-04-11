@@ -1,6 +1,8 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityLines;
+import course.messages.MessageService;
 import course.service.LinesService;
 
 import javax.ejb.EJB;
@@ -17,6 +19,9 @@ public class LinesResource {
     @EJB
     private LinesService lines;
 
+    @EJB
+    private MessageService messageService;
+
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,14 +34,25 @@ public class LinesResource {
     @Path("add/{number}/{color}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addLine(@PathParam("number")int num, @PathParam("color")String color) {
-        return lines.createLine(num, color);
+        String msg = color + " line was added";
+        boolean res = lines.createLine(num, color);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("rm/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addLine(@PathParam("id")int id) {
-        return lines.deleteLine(lines.getLineById(id));
+        EntityLines line = lines.getLineById(id);
+        String msg = line.getSchemeColor() + " line was removed";
+        boolean res = lines.deleteLine(line);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET

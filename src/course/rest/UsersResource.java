@@ -1,6 +1,8 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityUsers;
+import course.messages.MessageService;
 import course.service.PermissionTypesService;
 import course.service.UsersService;
 
@@ -24,6 +26,9 @@ public class UsersResource {
     @EJB
     private PermissionTypesService permissionTypes;
 
+    @EJB
+    private MessageService messageService;
+
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,35 +49,67 @@ public class UsersResource {
         } catch (Exception e) {
             return false;
         }
-        return users.createUser(firstName, lastName, date, eMail, permissionTypes.getPermTypeById(permType));
+        String msg = "User " + lastName + " " + firstName + " was added";
+        boolean res = users.createUser(firstName, lastName, date, eMail, permissionTypes.getPermTypeById(permType));
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("rm/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteUser(@PathParam("id")int id) {
-        return users.deleteUser(users.getUserById(id));
+        EntityUsers user = users.getUserById(id);
+        String msg = "User " + user.getLastName() + " " + user.getFirstName() + " was removed";
+        boolean res = users.deleteUser(user);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("change/{id}/firstname/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeUserFirstName(@PathParam("id")int id, @PathParam("name")String name) {
-        return users.changeUserFirstName(users.getUserById(id), name);
+        EntityUsers user = users.getUserById(id);
+        String msg = "User " + user.getLastName() + " " + user.getFirstName() + " was changed to " +
+                user.getLastName() + " " + name;
+        boolean res = users.changeUserFirstName(user, name);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("change/{id}/lastname/{lName}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeUserLastName(@PathParam("id")int id, @PathParam("lName")String lName) {
-        return users.changeUserLastName(users.getUserById(id), lName);
+        EntityUsers user = users.getUserById(id);
+        String msg = "User " + user.getLastName() + " " + user.getFirstName() + " was changed to " +
+                lName + " " + user.getFirstName();
+        boolean res = users.changeUserLastName(user, lName);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("change/{id}/balance/{balance}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeUserBalance(@PathParam("id")int id, @PathParam("balance")int balance) {
-        return users.changeUserBalance(users.getUserById(id), balance);
+        EntityUsers user = users.getUserById(id);
+        String msg = "User " + user.getLastName() + " " + user.getFirstName() + "'s balance was changed from " +
+                user.getBalance() + " to " + balance;
+        boolean res = users.changeUserBalance(user, balance);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET

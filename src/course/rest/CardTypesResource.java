@@ -1,6 +1,8 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityCardTypes;
+import course.messages.MessageService;
 import course.service.CardTypesService;
 
 import javax.ejb.EJB;
@@ -17,6 +19,9 @@ public class CardTypesResource {
     @EJB
     private CardTypesService cardTypes;
 
+    @EJB
+    private MessageService messageService;
+
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,21 +34,37 @@ public class CardTypesResource {
     @Path("add/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addCardType(@PathParam("name")String name) {
-        return cardTypes.createCardType(name);
+        String msg = "Card type " + name + " was added";
+        boolean result = cardTypes.createCardType(name);
+        if (result) {
+            messageService.sendMsg(msg);
+        }
+        return result;
     }
 
     @GET
     @Path("rm/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteCardType(@PathParam("id")int id) {
-        return cardTypes.deleteCardType(cardTypes.getCardTypeById(id));
+        EntityCardTypes cardType = cardTypes.getCardTypeById(id);
+        String msg = "Card type " + cardType.getName() + " was removed";
+        boolean result = cardTypes.deleteCardType(cardType);
+        if (result) {
+            messageService.sendMsg(msg);
+        }
+        return result;
     }
 
     @GET
     @Path("change/{id}/name{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeCardTypeName(@PathParam("id")int id, @PathParam("name")String name) {
-        return cardTypes.changeCardTypeName(cardTypes.getCardTypeById(id), name);
+        String msg = "Card type " + cardTypes.getCardTypeById(id).getName() + "'s name was changed to " + name;
+        boolean result = cardTypes.changeCardTypeName(cardTypes.getCardTypeById(id), name);
+        if (result) {
+            messageService.sendMsg(msg);
+        }
+        return result;
     }
 
     @GET

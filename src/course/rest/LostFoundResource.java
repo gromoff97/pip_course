@@ -1,6 +1,8 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityLostFound;
+import course.messages.MessageService;
 import course.service.LostFoundService;
 
 import javax.ejb.EJB;
@@ -13,6 +15,9 @@ import javax.ws.rs.core.MediaType;
 public class LostFoundResource {
     @EJB
     private LostFoundService lostFound;
+
+    @EJB
+    private MessageService messageService;
 
     @GET
     @Path("all")
@@ -27,14 +32,25 @@ public class LostFoundResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addMessage(String content) {
-        return lostFound.createMessage(content);
+        String msg = "New message: '" + content + "'";
+        boolean res = lostFound.createMessage(content);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("rm/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteMessage(@PathParam("id")int id) {
-        return lostFound.deleteMessage(lostFound.getMessageById(id));
+        EntityLostFound message = lostFound.getMessageById(id);
+        String msg = "Message '" + message.getMessage() + "' was removed";
+        boolean res = lostFound.deleteMessage(message);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET

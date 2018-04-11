@@ -1,6 +1,8 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityNews;
+import course.messages.MessageService;
 import course.service.NewsService;
 
 import javax.ejb.EJB;
@@ -13,6 +15,9 @@ import javax.ws.rs.core.MediaType;
 public class NewsResource {
     @EJB
     private NewsService news;
+
+    @EJB
+    private MessageService messageService;
 
     @GET
     @Path("all")
@@ -27,14 +32,25 @@ public class NewsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addPost(String content) {
-        return news.createPost(content);
+        String msg = "New post: '" + content + "'";
+        boolean res = news.createPost(content);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("rm/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deletePost(@PathParam("id")int id) {
-        return news.deletePost(news.getPostById(id));
+        EntityNews post = news.getPostById(id);
+        String msg = "Post '" + post.getContent() + "' was removed";
+        boolean res = news.deletePost(post);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @POST
@@ -42,7 +58,13 @@ public class NewsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changePostContent(@PathParam("id")int id, String content) {
-        return news.changePostContent(news.getPostById(id), content);
+        EntityNews post = news.getPostById(id);
+        String msg = "Post was changed from '" + post.getContent() + "' to '" + content + "'";
+        boolean res = news.changePostContent(post, content);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET

@@ -1,6 +1,8 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityStationsStates;
+import course.messages.MessageService;
 import course.service.StationStatesService;
 
 import javax.ejb.EJB;
@@ -17,6 +19,9 @@ public class StationsStatesResource {
     @EJB
     private StationStatesService stationStates;
 
+    @EJB
+    private MessageService messageService;
+
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,21 +34,38 @@ public class StationsStatesResource {
     @Path("add/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addState(@PathParam("name")String name) {
-        return stationStates.createState(name);
+        String msg = "Station's state " + name + " was added";
+        boolean res = stationStates.createState(name);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("rm/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteState(@PathParam("id")int id) {
-        return stationStates.deleteState(stationStates.getStateById(id));
+        EntityStationsStates state = stationStates.getStateById(id);
+        String msg = "Station's state " + state.getName() + " was removed";
+        boolean res = stationStates.deleteState(state);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("change/{id}/name/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeStateName(@PathParam("id")int id, @PathParam("name")String name) {
-        return stationStates.changeStateName(stationStates.getStateById(id), name);
+        EntityStationsStates state = stationStates.getStateById(id);
+        String msg = "Station's state " + state.getName() + " was changed to " + name;
+        boolean res = stationStates.changeStateName(state, name);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET

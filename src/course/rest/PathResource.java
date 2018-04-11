@@ -1,6 +1,9 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityPath;
+import course.entity.EntityStations;
+import course.messages.MessageService;
 import course.service.PathService;
 import course.service.StationsService;
 
@@ -21,25 +24,50 @@ public class PathResource {
     @EJB
     private StationsService stations;
 
+    @EJB
+    private MessageService messageService;
+
     @GET
     @Path("add/{from}/{to}/{time}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addPath(@PathParam("from")int from, @PathParam("to")int to, @PathParam("time")int time) {
-        return path.createPath(stations.getStationById(from), stations.getStationById(to), time);
+        EntityStations fromStation = stations.getStationById(from),
+                toStation = stations.getStationById(to);
+        String msg = "Path from station " + fromStation.getName() + " to station " + toStation.getName() +
+                " was added";
+        boolean res = path.createPath(fromStation, toStation, time);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("rm/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deletePath(@PathParam("id")int id) {
-        return path.deletePath(path.getPathById(id));
+        EntityPath oldPath = path.getPathById(id);
+        String msg = "Path from station" + oldPath.getFromStation().getName() + " to station " +
+                oldPath.getToStation().getName() + " was removed";
+        boolean res = path.deletePath(oldPath);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
     @Path("change/{id}/time/{time}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changePathTime(@PathParam("id")int id, @PathParam("time")int time) {
-        return path.changePathTime(path.getPathById(id), time);
+        EntityPath ePath = path.getPathById(id);
+        String msg = "New time from station " + ePath.getFromStation().getName() + " to station " +
+                ePath.getToStation().getName() + " is " + time + " seconds";
+        boolean res = path.changePathTime(ePath, time);
+        if (res) {
+            messageService.sendMsg(msg);
+        }
+        return res;
     }
 
     @GET
