@@ -27,7 +27,7 @@ public class MessageService {
 
     public void sendMsg(String message) {
         try {
-            channel.basicPublish("logs", "", null, message.getBytes());
+            channel.basicPublish("logs", "", null, message.getBytes("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
