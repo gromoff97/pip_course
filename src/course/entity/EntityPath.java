@@ -23,11 +23,11 @@ public class EntityPath {
     @SequenceGenerator(name = "path_id_seq", sequenceName = "path_id_seq", allocationSize = 1)
     private int id;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "from_station", nullable = false)
     private EntityStations fromStation;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "to_station", nullable = false)
     private EntityStations toStation;
 

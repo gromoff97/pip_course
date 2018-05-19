@@ -27,11 +27,11 @@ public class EntityStations {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "line_id", nullable = false)
     private EntityLines line;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "state_id", nullable = false)
     private EntityStationsStates state;
 

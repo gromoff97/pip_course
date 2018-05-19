@@ -44,7 +44,7 @@ public class EntityUsers {
     @Column(nullable = false)
     private int balance;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "permission_type_id", nullable = false)
     private EntityPermissionTypes userPermissionType;
 
