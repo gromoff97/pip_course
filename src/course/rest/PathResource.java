@@ -33,6 +33,9 @@ public class PathResource {
     public boolean addPath(@PathParam("from")int from, @PathParam("to")int to, @PathParam("time")int time) {
         EntityStations fromStation = stations.getStationById(from),
                 toStation = stations.getStationById(to);
+        if ((fromStation == null) || (toStation == null)) {
+            return false;
+        }
         String msg = "Path from station " + fromStation.getName() + " to station " + toStation.getName() +
                 " was added";
         boolean res = path.createPath(fromStation, toStation, time);
@@ -47,6 +50,9 @@ public class PathResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deletePath(@PathParam("id")int id) {
         EntityPath oldPath = path.getPathById(id);
+        if (oldPath == null) {
+            return false;
+        }
         String msg = "Path from station" + oldPath.getFromStation().getName() + " to station " +
                 oldPath.getToStation().getName() + " was removed";
         boolean res = path.deletePath(oldPath);
@@ -61,6 +67,9 @@ public class PathResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changePathTime(@PathParam("id")int id, @PathParam("time")int time) {
         EntityPath ePath = path.getPathById(id);
+        if (ePath == null) {
+            return false;
+        }
         String msg = "New time from station " + ePath.getFromStation().getName() + " to station " +
                 ePath.getToStation().getName() + " is " + time + " seconds";
         boolean res = path.changePathTime(ePath, time);

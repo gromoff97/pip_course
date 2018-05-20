@@ -27,6 +27,7 @@ public class CardTypesService {
         EntityCardTypes cardType = new EntityCardTypes(name);
         try {
             em.persist(cardType);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -36,6 +37,7 @@ public class CardTypesService {
     public boolean deleteCardType(EntityCardTypes cardType){
         try {
             em.remove(cardType);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -45,6 +47,7 @@ public class CardTypesService {
     public boolean changeCardTypeName(EntityCardTypes cardType, String newName) {
         try {
             cardType.setName(newName);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -56,9 +59,13 @@ public class CardTypesService {
     }
 
     public EntityCardTypes getCardTypeByName(String name){
-        return em.createQuery("SELECT ct FROM EntityCardTypes ct where ct.name = :name",EntityCardTypes.class)
-                .setParameter("name",name)
-                .getSingleResult();
+        try {
+            return em.createQuery("SELECT ct FROM EntityCardTypes ct where ct.name = :name",EntityCardTypes.class)
+                    .setParameter("name",name)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public EntityCardTypes getCardTypeById(int id){

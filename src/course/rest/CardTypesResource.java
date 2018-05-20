@@ -47,6 +47,9 @@ public class CardTypesResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteCardType(@PathParam("id")int id) {
         EntityCardTypes cardType = cardTypes.getCardTypeById(id);
+        if (cardType == null) {
+            return false;
+        }
         String msg = "Card type " + cardType.getName() + " was removed";
         boolean result = cardTypes.deleteCardType(cardType);
         if (result) {
@@ -56,11 +59,15 @@ public class CardTypesResource {
     }
 
     @GET
-    @Path("change/{id}/name{name}")
+    @Path("change/{id}/name/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeCardTypeName(@PathParam("id")int id, @PathParam("name")String name) {
-        String msg = "Card type " + cardTypes.getCardTypeById(id).getName() + "'s name was changed to " + name;
-        boolean result = cardTypes.changeCardTypeName(cardTypes.getCardTypeById(id), name);
+        EntityCardTypes cardType = cardTypes.getCardTypeById(id);
+        if (cardType == null) {
+            return false;
+        }
+        String msg = "Card type " + cardType.getName() + "'s name was changed to " + name;
+        boolean result = cardTypes.changeCardTypeName(cardType, name);
         if (result) {
             messageService.sendMsg(msg);
         }

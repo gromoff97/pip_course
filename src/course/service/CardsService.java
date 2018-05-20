@@ -30,6 +30,7 @@ public class CardsService {
         EntityCards card = new EntityCards(user, type);
         try {
             em.persist(card);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -39,6 +40,7 @@ public class CardsService {
     public boolean deleteCard(EntityCards card) {
         try {
             em.remove(card);
+            em.flush();
         } catch (Exception e){
             return false;
         }
@@ -48,6 +50,7 @@ public class CardsService {
     public boolean changeCardType(EntityCards card, EntityCardTypes newType) {
         try {
             card.setCardType(newType);
+            em.flush();
         } catch (Exception e) {
             return false;
         }

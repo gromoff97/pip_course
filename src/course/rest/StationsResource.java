@@ -1,6 +1,8 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityStations;
+import course.entity.EntityStationsStates;
 import course.messages.MessageService;
 import course.service.LinesService;
 import course.service.StationStatesService;
@@ -53,8 +55,12 @@ public class StationsResource {
     @Path("rm/{id}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteStation(@PathParam("id")int id) {
-        String msg = "Station " + stations.getStationById(id).getName() + " was removed";
-        boolean result = stations.deleteStation(stations.getStationById(id));
+        EntityStations station = stations.getStationById(id);
+        if (station == null) {
+            return false;
+        }
+        String msg = "Station " + station.getName() + " was removed";
+        boolean result = stations.deleteStation(station);
         if (result) {
             messageService.sendMsg(msg);
         }
@@ -65,8 +71,12 @@ public class StationsResource {
     @Path("change/{id}/name/{name}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeStationName(@PathParam("id")int id, @PathParam("name")String name) {
-        String msg = "Station " + stations.getStationById(id).getName() + "'s name was changed to " + name;
-        boolean result = stations.changeStationName(stations.getStationById(id), name);
+        EntityStations station = stations.getStationById(id);
+        if (station == null) {
+            return false;
+        }
+        String msg = "Station " + station.getName() + "'s name was changed to " + name;
+        boolean result = stations.changeStationName(station, name);
         if (result) {
             messageService.sendMsg(msg);
         }
@@ -77,9 +87,14 @@ public class StationsResource {
     @Path("change/{id}/state/{state}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeStationState(@PathParam("id")int id, @PathParam("state")int state) {
-        String msg = "Station " + stations.getStationById(id).getName() + "'s state was changed to " +
-                stationStates.getStateById(state).getName();
-        boolean result = stations.changeStationState(stations.getStationById(id), stationStates.getStateById(state));
+        EntityStations station = stations.getStationById(id);
+        EntityStationsStates newState = stationStates.getStateById(state);
+        if ((station == null) || (newState == null)) {
+            return false;
+        }
+        String msg = "Station " + station.getName() + "'s state was changed to " +
+                newState.getName();
+        boolean result = stations.changeStationState(station, newState);
         if (result) {
             messageService.sendMsg(msg);
         }

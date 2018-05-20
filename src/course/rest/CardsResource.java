@@ -1,6 +1,7 @@
 package course.rest;
 
 import com.google.gson.Gson;
+import course.entity.EntityCardTypes;
 import course.entity.EntityCards;
 import course.entity.EntityUsers;
 import course.messages.MessageService;
@@ -44,6 +45,9 @@ public class CardsResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addCard(@PathParam("user")int userId, @PathParam("type")int type) {
         EntityUsers user = users.getUserById(userId);
+        if (user == null) {
+            return false;
+        }
         String msg = user.getLastName() + " " + user.getFirstName() + "'s card was added";
         boolean result = cards.createCard(user, cardTypes.getCardTypeById(type));
         if (result) {
@@ -57,6 +61,9 @@ public class CardsResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteCard(@PathParam("id")int id) {
         EntityCards card = cards.getCardsById(id);
+        if (card == null) {
+            return false;
+        }
         String msg = card.getUser().getLastName() + " " + card.getUser().getFirstName() + "'s card was removed";
         boolean result = cards.deleteCard(card);
         if (result) {
@@ -69,8 +76,12 @@ public class CardsResource {
     @Path("change/{id}/type/{type}")
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeCardType(@PathParam("id")int id, @PathParam("type")int type) {
-        String msg = "Type of card " + id + " was changed to " + cardTypes.getCardTypeById(type).getName();
-        boolean result = cards.changeCardType(cards.getCardsById(id), cardTypes.getCardTypeById(type));
+        EntityCardTypes newType = cardTypes.getCardTypeById(type);
+        if (newType == null) {
+            return false;
+        }
+        String msg = "Type of card " + id + " was changed to " + newType.getName();
+        boolean result = cards.changeCardType(cards.getCardsById(id), newType);
         if (result) {
             messageService.sendMsg(msg);
         }

@@ -29,6 +29,7 @@ public class UsersService {
         EntityUsers user = new EntityUsers(firstName,lastName,birthDate,eMail,userPermissionType);
         try{
             em.persist(user);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -38,6 +39,7 @@ public class UsersService {
     public boolean deleteUser(EntityUsers user){
         try {
             em.remove(user);
+            em.flush();
         } catch (Exception e){
             return false;
         }
@@ -47,6 +49,7 @@ public class UsersService {
     public boolean changeUserEmail(EntityUsers user, String nowUserEmail){
         try {
             user.seteMail(nowUserEmail);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -56,6 +59,7 @@ public class UsersService {
     public boolean changeUserFirstName(EntityUsers user, String nowFirstName){
         try {
             user.setFirstName(nowFirstName);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -65,6 +69,7 @@ public class UsersService {
     public boolean changeUserLastName(EntityUsers user, String nowLastName){
         try {
             user.setLastName(nowLastName);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -74,6 +79,7 @@ public class UsersService {
     public boolean changeUserBalance(EntityUsers user, int nowBalance){
         try {
             user.setBalance(nowBalance);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -84,17 +90,21 @@ public class UsersService {
         return em.createQuery("SELECT l FROM EntityUsers l",EntityUsers.class).getResultList();
     }
 
-    public EntityUsers getUserByEmail(String Email){
-        return em.createQuery("SELECT l FROM EntityUsers l where l.eMail = :mail",EntityUsers.class)
-                .setParameter("mail",Email)
-                .getSingleResult();
+    public EntityUsers getUserByEmail(String Email) {
+        try {
+            return em.createQuery("SELECT l FROM EntityUsers l where l.eMail = :mail",EntityUsers.class)
+                    .setParameter("mail",Email)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
-    public EntityUsers getUserById(int id){
+    public EntityUsers getUserById(int id) {
         return em.find(EntityUsers.class, id);
     }
 
-    public int getBalanceById(int id){
+    public int getBalanceById(int id) throws NullPointerException {
         return getUserById(id).getBalance();
     }
 }

@@ -47,6 +47,9 @@ public class PermissionTypesResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deletePermType(@PathParam("id")int id) {
         EntityPermissionTypes pType = permissionTypes.getPermTypeById(id);
+        if (pType == null) {
+            return false;
+        }
         String msg = "Permission type " + pType.getName() + " was removed";
         boolean res = permissionTypes.deleteType(pType);
         if (res) {
@@ -60,6 +63,9 @@ public class PermissionTypesResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changePermissionName(@PathParam("id")int id, @PathParam("name")String name) {
         EntityPermissionTypes pType = permissionTypes.getPermTypeById(id);
+        if (pType == null) {
+            return false;
+        }
         String msg = "Permission type " + pType.getName() + " was changed to " + name;
         boolean res = permissionTypes.changePermissionName(pType, name);
         if (res) {

@@ -29,6 +29,7 @@ public class StationsService {
         EntityStations stations = new EntityStations(name, line, state);
         try {
             em.persist(stations);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -38,6 +39,7 @@ public class StationsService {
     public boolean deleteStation(EntityStations station) {
         try {
             em.remove(station);
+            em.flush();
         } catch (Exception e){
             return false;
         }
@@ -47,6 +49,7 @@ public class StationsService {
     public boolean changeStationName(EntityStations station, String newName){
         try {
             station.setName(newName);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -56,6 +59,7 @@ public class StationsService {
     public boolean changeStationState(EntityStations station, EntityStationsStates newState){
         try {
             station.setState(newState);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -68,9 +72,13 @@ public class StationsService {
     }
 
     public EntityStations getStationByName(String name) {
-        return em.createQuery("SELECT s FROM EntityStations s where s.name = :name", EntityStations.class)
-                .setParameter("name", name)
-                .getSingleResult();
+        try {
+            return em.createQuery("SELECT s FROM EntityStations s where s.name = :name", EntityStations.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public EntityStations getStationById(int id){

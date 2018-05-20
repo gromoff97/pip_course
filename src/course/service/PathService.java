@@ -30,6 +30,7 @@ public class PathService {
         EntityPath path = new EntityPath(fromStation, toStation, timeInSec);
         try {
             em.persist(path);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -39,6 +40,7 @@ public class PathService {
     public boolean deletePath(EntityPath path){
         try {
             em.remove(path);
+            em.flush();
         } catch (Exception e){
             return false;
         }
@@ -48,6 +50,7 @@ public class PathService {
     public boolean changePathTime(EntityPath path, int newTimeInSec){
         try {
             path.setTimeInSec(newTimeInSec);
+            em.flush();
         } catch (Exception e) {
             return false;
         }

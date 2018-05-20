@@ -27,6 +27,7 @@ public class StationStatesService {
         EntityStationsStates state = new EntityStationsStates(stateName);
         try {
             em.persist(state);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -36,6 +37,7 @@ public class StationStatesService {
     public boolean deleteState(EntityStationsStates state){
         try {
             em.remove(state);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -45,6 +47,7 @@ public class StationStatesService {
     public boolean changeStateName(EntityStationsStates state, String nowStateName){
         try{
             state.setName(nowStateName);
+            em.flush();
         }
         catch (Exception e) {
             return false;
@@ -57,9 +60,13 @@ public class StationStatesService {
     }
 
     public EntityStationsStates getStateByName(String name) {
-        return em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.name = :name", EntityStationsStates.class)
-                .setParameter("name", name)
-                .getSingleResult();
+        try {
+            return em.createQuery("SELECT ss FROM EntityStationsStates ss where ss.name = :name", EntityStationsStates.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public EntityStationsStates getStateById(int id){

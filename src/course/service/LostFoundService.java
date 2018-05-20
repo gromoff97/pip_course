@@ -29,6 +29,7 @@ public class LostFoundService {
         EntityLostFound lostFound = new EntityLostFound(message, date);
         try {
             em.persist(lostFound);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -38,6 +39,7 @@ public class LostFoundService {
     public boolean deleteMessage(EntityLostFound message){
         try {
             em.remove(message);
+            em.flush();
         } catch (Exception e) {
             return false;
         }

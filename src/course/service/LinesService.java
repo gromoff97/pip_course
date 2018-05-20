@@ -27,6 +27,7 @@ public class LinesService {
         EntityLines line = new EntityLines(number, color);
         try{
             em.persist(line);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -36,6 +37,7 @@ public class LinesService {
     public boolean deleteLine(EntityLines line){
         try {
             em.remove(line);
+            em.flush();
         } catch (Exception e){
             return false;
         }
@@ -47,9 +49,13 @@ public class LinesService {
     }
 
     public EntityLines getLineByColor(String color){
-        return em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
-                .setParameter("color",color)
-                .getSingleResult();
+        try {
+            return em.createQuery("SELECT l FROM EntityLines l where l.schemeColor = :color",EntityLines.class)
+                    .setParameter("color",color)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public EntityLines getLineById(int id){

@@ -47,6 +47,9 @@ public class LinesResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean addLine(@PathParam("id")int id) {
         EntityLines line = lines.getLineById(id);
+        if (line == null) {
+            return false;
+        }
         String msg = line.getSchemeColor() + " line was removed";
         boolean res = lines.deleteLine(line);
         if (res) {

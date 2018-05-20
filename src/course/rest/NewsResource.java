@@ -45,6 +45,9 @@ public class NewsResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deletePost(@PathParam("id")int id) {
         EntityNews post = news.getPostById(id);
+        if (post == null) {
+            return false;
+        }
         String msg = "Post '" + post.getContent() + "' was removed";
         boolean res = news.deletePost(post);
         if (res) {
@@ -59,6 +62,9 @@ public class NewsResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changePostContent(@PathParam("id")int id, String content) {
         EntityNews post = news.getPostById(id);
+        if (post == null) {
+            return false;
+        }
         String msg = "Post was changed from '" + post.getContent() + "' to '" + content + "'";
         boolean res = news.changePostContent(post, content);
         if (res) {

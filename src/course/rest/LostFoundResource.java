@@ -45,6 +45,9 @@ public class LostFoundResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteMessage(@PathParam("id")int id) {
         EntityLostFound message = lostFound.getMessageById(id);
+        if (message == null) {
+            return false;
+        }
         String msg = "Message '" + message.getMessage() + "' was removed";
         boolean res = lostFound.deleteMessage(message);
         if (res) {

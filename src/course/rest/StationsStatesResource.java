@@ -47,6 +47,9 @@ public class StationsStatesResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteState(@PathParam("id")int id) {
         EntityStationsStates state = stationStates.getStateById(id);
+        if (state == null) {
+            return false;
+        }
         String msg = "Station's state " + state.getName() + " was removed";
         boolean res = stationStates.deleteState(state);
         if (res) {
@@ -60,6 +63,9 @@ public class StationsStatesResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeStateName(@PathParam("id")int id, @PathParam("name")String name) {
         EntityStationsStates state = stationStates.getStateById(id);
+        if (state == null) {
+            return false;
+        }
         String msg = "Station's state " + state.getName() + " was changed to " + name;
         boolean res = stationStates.changeStateName(state, name);
         if (res) {

@@ -29,6 +29,7 @@ public class NewsService {
         EntityNews post = new EntityNews(content, date);
         try {
             em.persist(post);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -38,6 +39,7 @@ public class NewsService {
     public boolean deletePost(EntityNews post){
         try {
             em.remove(post);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -47,6 +49,7 @@ public class NewsService {
     public boolean changePostContent(EntityNews post, String newContent) {
         try {
             post.setContent(newContent);
+            em.flush();
         } catch (Exception e) {
             return false;
         }

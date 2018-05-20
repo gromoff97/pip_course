@@ -28,6 +28,7 @@ public class PermissionTypesService {
         EntityPermissionTypes permType = new EntityPermissionTypes(typeName);
         try {
             em.persist(permType);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -37,6 +38,7 @@ public class PermissionTypesService {
     public boolean deleteType(EntityPermissionTypes permType){
         try {
             em.remove(permType);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -46,6 +48,7 @@ public class PermissionTypesService {
     public boolean changePermissionName(EntityPermissionTypes permType, String nowPermName){
         try {
             permType.setName(nowPermName);
+            em.flush();
         } catch (Exception e) {
             return false;
         }
@@ -57,9 +60,13 @@ public class PermissionTypesService {
     }
 
     public EntityPermissionTypes getPermTypeByName(String name){
-        return em.createQuery("SELECT pt FROM EntityPermissionTypes pt where pt.name = :name",EntityPermissionTypes.class)
-                .setParameter("name",name)
-                .getSingleResult();
+        try {
+            return em.createQuery("SELECT pt FROM EntityPermissionTypes pt where pt.name = :name",EntityPermissionTypes.class)
+                    .setParameter("name",name)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public EntityPermissionTypes getPermTypeById(int id){

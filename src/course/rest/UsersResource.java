@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -62,6 +63,9 @@ public class UsersResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean deleteUser(@PathParam("id")int id) {
         EntityUsers user = users.getUserById(id);
+        if (user == null) {
+            return false;
+        }
         String msg = "User " + user.getLastName() + " " + user.getFirstName() + " was removed";
         boolean res = users.deleteUser(user);
         if (res) {
@@ -75,6 +79,9 @@ public class UsersResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeUserFirstName(@PathParam("id")int id, @PathParam("name")String name) {
         EntityUsers user = users.getUserById(id);
+        if (user == null) {
+            return false;
+        }
         String msg = "User " + user.getLastName() + " " + user.getFirstName() + " was changed to " +
                 user.getLastName() + " " + name;
         boolean res = users.changeUserFirstName(user, name);
@@ -89,6 +96,9 @@ public class UsersResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeUserLastName(@PathParam("id")int id, @PathParam("lName")String lName) {
         EntityUsers user = users.getUserById(id);
+        if (user == null) {
+            return false;
+        }
         String msg = "User " + user.getLastName() + " " + user.getFirstName() + " was changed to " +
                 lName + " " + user.getFirstName();
         boolean res = users.changeUserLastName(user, lName);
@@ -103,6 +113,9 @@ public class UsersResource {
     @Produces(MediaType.TEXT_PLAIN)
     public boolean changeUserBalance(@PathParam("id")int id, @PathParam("balance")int balance) {
         EntityUsers user = users.getUserById(id);
+        if (user == null) {
+            return false;
+        }
         String msg = "User " + user.getLastName() + " " + user.getFirstName() + "'s balance was changed from " +
                 user.getBalance() + " to " + balance;
         boolean res = users.changeUserBalance(user, balance);
@@ -131,7 +144,11 @@ public class UsersResource {
     @GET
     @Path("balance/{id}")
     @Produces(MediaType.TEXT_PLAIN)
-    public int getBalanceById(@PathParam("id")int id) {
-        return users.getBalanceById(id);
+    public Response getBalanceById(@PathParam("id")int id) {
+        try {
+            return Response.ok(users.getBalanceById(id)).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 }
