@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Collection;
 
 /**
  * @author Gromov Anton
@@ -55,6 +56,11 @@ public class PathService {
             return false;
         }
         return true;
+    }
+
+    public Collection<EntityPath> getPaths() {
+        return em.createQuery("SELECT p FROM EntityPath p", EntityPath.class)
+                .getResultList();
     }
 
     public EntityPath getPathFromTo(EntityStations fromSt, EntityStations toSt) {
