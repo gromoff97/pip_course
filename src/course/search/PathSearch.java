@@ -20,9 +20,9 @@ public class PathSearch {
     @EJB
     private PathService pathService;
 
-    public FoundPath getMinPath(EntityStations from, EntityStations to) throws Exception {
+    public FoundPath getMinPath(EntityStations from, EntityStations to) {
         if ((from == null) || (to == null)) {
-            throw new Exception();
+            return null;
         }
         Collection<EntityStations> collection = stationsService.getStations();
         HashMap<EntityStations, Integer> stations = new HashMap<>(collection.size());
@@ -45,6 +45,9 @@ public class PathSearch {
                 u = stations.get(to);
 
         int time = graph.getMinDistance(v, u);
+        if (time == -1) {
+            return null;
+        }
         List<Integer> path = graph.getLastPath(v, u);
         StringBuilder result = new StringBuilder();
         for (Integer item : path) {

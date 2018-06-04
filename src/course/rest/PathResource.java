@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import course.entity.EntityPath;
 import course.entity.EntityStations;
 import course.messages.MessageService;
+import course.search.FoundPath;
 import course.search.PathSearch;
 import course.service.PathService;
 import course.service.StationsService;
@@ -15,7 +16,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Stateless
 @Path("path")
@@ -103,11 +103,7 @@ public class PathResource {
     @GET
     @Path("min/{from}/{to}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getTimeFromTo(@PathParam("from")int from, @PathParam("to")int to) {
-        try {
-            return Response.ok(pathSearch.getMinPath(stations.getStationById(from), stations.getStationById(to))).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+    public FoundPath getTimeFromTo(@PathParam("from")int from, @PathParam("to")int to) {
+        return pathSearch.getMinPath(stations.getStationById(from), stations.getStationById(to));
     }
 }

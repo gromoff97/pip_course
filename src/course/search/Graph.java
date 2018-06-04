@@ -9,14 +9,14 @@ class Graph {
     private int[] value;
     private int[] head;
     private int[] path;
-    private int nextElement = 0;
+    private int nextElement = 1;
     private int n;
 
     public Graph(int n) {
         this.n = n;
-        next = new int[n * (n - 1)];
-        dest = new int[n * (n - 1)];
-        value = new int[n * (n - 1)];
+        next = new int[n * (n - 1) + 1];
+        dest = new int[n * (n - 1) + 1];
+        value = new int[n * (n - 1) + 1];
         head = new int[n];
         path = new int[n];
     }
@@ -44,17 +44,18 @@ class Graph {
                     v = i;
                 }
             }
-            if (v == to) {
+            if ((v == -1) || (v == to)) {
                 break;
             }
-            int u = head[v];
-            do {
-                if ((!m[dest[u]]) && ((d[dest[u]] == -1) || (d[v] + value[u] < d[dest[u]]))) {
-                    d[dest[u]] = d[v] + value[u];
-                    path[dest[u]] = v;
+            int e = head[v];
+            while (e != 0) {
+                int u = dest[e];
+                if ((!m[u]) && ((d[u] == -1) || (d[v] + value[e] < d[u]))) {
+                    d[u] = d[v] + value[e];
+                    path[u] = v;
                 }
-                u = next[u];
-            } while (u != 0);
+                e = next[e];
+            }
             m[v] = true;
         }
         return d[to];
