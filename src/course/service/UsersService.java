@@ -53,7 +53,7 @@ public class UsersService {
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 
     public boolean changeUserFirstName(EntityUsers user, String nowFirstName){
@@ -63,7 +63,7 @@ public class UsersService {
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 
     public boolean changeUserLastName(EntityUsers user, String nowLastName){
@@ -73,7 +73,7 @@ public class UsersService {
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 
     public boolean changeUserBalance(EntityUsers user, int nowBalance){
@@ -83,7 +83,7 @@ public class UsersService {
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 
     public Collection<EntityUsers> getUsers() {

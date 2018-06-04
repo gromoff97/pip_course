@@ -52,7 +52,7 @@ public class PermissionTypesService {
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 
     public Collection<EntityPermissionTypes> getPermTypes(){
