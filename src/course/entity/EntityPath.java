@@ -43,6 +43,10 @@ public class EntityPath {
         this.timeInSec = timeInSec;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public EntityStations getFromStation() {
         return fromStation;
     }

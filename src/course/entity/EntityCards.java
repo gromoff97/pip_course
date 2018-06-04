@@ -43,6 +43,10 @@ public class EntityCards {
         this.balance = 0;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public EntityUsers getUser() {
         return user;
     }

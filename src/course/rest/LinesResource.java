@@ -1,6 +1,5 @@
 package course.rest;
 
-import com.google.gson.Gson;
 import course.entity.EntityLines;
 import course.messages.MessageService;
 import course.service.LinesService;
@@ -12,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Collection;
 
 @Stateless
 @Path("lines")
@@ -25,14 +25,13 @@ public class LinesResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllLines() {
-        Gson gson = new Gson();
-        return gson.toJson(lines.getLines());
+    public Collection<EntityLines> getAllLines() {
+        return lines.getLines();
     }
 
     @GET
     @Path("add/{number}/{color}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean addLine(@PathParam("number")int num, @PathParam("color")String color) {
         String msg = color + " line was added";
         boolean res = lines.createLine(num, color);
@@ -44,7 +43,7 @@ public class LinesResource {
 
     @GET
     @Path("rm/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean addLine(@PathParam("id")int id) {
         EntityLines line = lines.getLineById(id);
         if (line == null) {
@@ -61,16 +60,14 @@ public class LinesResource {
     @GET
     @Path("color/{color}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getLineByColor(@PathParam("color")String color) {
-        Gson gson = new Gson();
-        return gson.toJson(lines.getLineByColor(color));
+    public EntityLines getLineByColor(@PathParam("color")String color) {
+        return lines.getLineByColor(color);
     }
 
     @GET
     @Path("id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getLineById(@PathParam("id")int id) {
-        Gson gson = new Gson();
-        return gson.toJson(lines.getLineById(id));
+    public EntityLines getLineById(@PathParam("id")int id) {
+        return lines.getLineById(id);
     }
 }

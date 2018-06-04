@@ -44,6 +44,10 @@ public class EntityStations {
         this.state = state;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

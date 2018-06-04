@@ -1,6 +1,5 @@
 package course.rest;
 
-import com.google.gson.Gson;
 import course.entity.EntityCardTypes;
 import course.messages.MessageService;
 import course.service.CardTypesService;
@@ -12,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Collection;
 
 @Stateless
 @Path("cardtypes")
@@ -25,14 +25,13 @@ public class CardTypesResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllCardTypes() {
-        Gson gson = new Gson();
-        return gson.toJson(cardTypes.getCardTypes());
+    public Collection<EntityCardTypes> getAllCardTypes() {
+        return cardTypes.getCardTypes();
     }
 
     @GET
     @Path("add/{name}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean addCardType(@PathParam("name")String name) {
         String msg = "Card type " + name + " was added";
         boolean result = cardTypes.createCardType(name);
@@ -44,7 +43,7 @@ public class CardTypesResource {
 
     @GET
     @Path("rm/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean deleteCardType(@PathParam("id")int id) {
         EntityCardTypes cardType = cardTypes.getCardTypeById(id);
         if (cardType == null) {
@@ -60,7 +59,7 @@ public class CardTypesResource {
 
     @GET
     @Path("change/{id}/name/{name}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean changeCardTypeName(@PathParam("id")int id, @PathParam("name")String name) {
         EntityCardTypes cardType = cardTypes.getCardTypeById(id);
         if (cardType == null) {
@@ -77,16 +76,14 @@ public class CardTypesResource {
     @GET
     @Path("name/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getCardTypeByName(@PathParam("name")String name) {
-        Gson gson = new Gson();
-        return gson.toJson(cardTypes.getCardTypeByName(name));
+    public EntityCardTypes getCardTypeByName(@PathParam("name")String name) {
+        return cardTypes.getCardTypeByName(name);
     }
 
     @GET
     @Path("id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getCardTypeById(@PathParam("id")int id) {
-        Gson gson = new Gson();
-        return gson.toJson(cardTypes.getCardTypeById(id));
+    public EntityCardTypes getCardTypeById(@PathParam("id")int id) {
+        return cardTypes.getCardTypeById(id);
     }
 }

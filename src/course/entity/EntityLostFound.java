@@ -2,6 +2,7 @@ package course.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Gromov Anton
@@ -37,11 +38,16 @@ public class EntityLostFound {
         this.date = date;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getMessage() {
         return message;
     }
 
-    public Date getDate() {
-        return date;
+    public String getPubDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        return dateFormat.format(date);
     }
 }

@@ -3,6 +3,7 @@ package course.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Gromov Anton
@@ -38,12 +39,17 @@ public class EntityNews {
         this.date = date;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getContent() {
         return content;
     }
 
-    public Date getDate() {
-        return date;
+    public String getPubDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        return dateFormat.format(date);
     }
 
     public void setContent(String content) {

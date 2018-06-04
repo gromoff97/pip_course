@@ -34,6 +34,10 @@ public class EntityLines {
         this.schemeColor = schemeColor;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public int getSchemeNumber() {
         return schemeNumber;
     }

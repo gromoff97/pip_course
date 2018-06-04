@@ -1,6 +1,5 @@
 package course.rest;
 
-import com.google.gson.Gson;
 import course.entity.EntityCardTypes;
 import course.entity.EntityCards;
 import course.entity.EntityUsers;
@@ -16,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.util.Collection;
 
 @Stateless
 @Path("cards")
@@ -35,14 +35,13 @@ public class CardsResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllCards() {
-        Gson gson = new Gson();
-        return gson.toJson(cards.getCards());
+    public Collection<EntityCards> getAllCards() {
+        return cards.getCards();
     }
 
     @GET
     @Path("add/{user}/{type}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean addCard(@PathParam("user")int userId, @PathParam("type")int type) {
         EntityUsers user = users.getUserById(userId);
         if (user == null) {
@@ -58,7 +57,7 @@ public class CardsResource {
 
     @GET
     @Path("rm/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean deleteCard(@PathParam("id")int id) {
         EntityCards card = cards.getCardsById(id);
         if (card == null) {
@@ -74,7 +73,7 @@ public class CardsResource {
 
     @GET
     @Path("change/{id}/type/{type}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean changeCardType(@PathParam("id")int id, @PathParam("type")int type) {
         EntityCardTypes newType = cardTypes.getCardTypeById(type);
         if (newType == null) {
@@ -91,8 +90,7 @@ public class CardsResource {
     @GET
     @Path("id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getCardById(@PathParam("id")int id) {
-        Gson gson = new Gson();
-        return gson.toJson(cards.getCardsById(id));
+    public EntityCards getCardById(@PathParam("id")int id) {
+        return cards.getCardsById(id);
     }
 }

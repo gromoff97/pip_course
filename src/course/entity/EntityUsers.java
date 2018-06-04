@@ -2,6 +2,7 @@ package course.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  * @author Gromov Anton
@@ -60,6 +61,10 @@ public class EntityUsers {
         this.userPermissionType = userPermissionType;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -68,8 +73,9 @@ public class EntityUsers {
         return lastName;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public String getDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        return dateFormat.format(birthDate);
     }
 
     public String geteMail() {

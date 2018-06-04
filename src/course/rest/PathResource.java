@@ -1,6 +1,5 @@
 package course.rest;
 
-import com.google.gson.Gson;
 import course.entity.EntityPath;
 import course.entity.EntityStations;
 import course.messages.MessageService;
@@ -34,7 +33,7 @@ public class PathResource {
 
     @GET
     @Path("add/{from}/{to}/{time}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean addPath(@PathParam("from")int from, @PathParam("to")int to, @PathParam("time")int time) {
         EntityStations fromStation = stations.getStationById(from),
                 toStation = stations.getStationById(to);
@@ -52,7 +51,7 @@ public class PathResource {
 
     @GET
     @Path("rm/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean deletePath(@PathParam("id")int id) {
         EntityPath oldPath = path.getPathById(id);
         if (oldPath == null) {
@@ -69,7 +68,7 @@ public class PathResource {
 
     @GET
     @Path("change/{id}/time/{time}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean changePathTime(@PathParam("id")int id, @PathParam("time")int time) {
         EntityPath ePath = path.getPathById(id);
         if (ePath == null) {
@@ -87,17 +86,15 @@ public class PathResource {
     @GET
     @Path("from/{from}/to/{to}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPathFromTo(@PathParam("from")int from, @PathParam("to")int to) {
-        Gson gson = new Gson();
-        return gson.toJson(path.getPathFromTo(stations.getStationById(from), stations.getStationById(to)));
+    public EntityPath getPathFromTo(@PathParam("from")int from, @PathParam("to")int to) {
+        return path.getPathFromTo(stations.getStationById(from), stations.getStationById(to));
     }
 
     @GET
     @Path("id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPathById(@PathParam("id")int id) {
-        Gson gson = new Gson();
-        return gson.toJson(path.getPathById(id));
+    public EntityPath getPathById(@PathParam("id")int id) {
+        return path.getPathById(id);
     }
 
     @GET

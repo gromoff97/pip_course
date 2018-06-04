@@ -1,6 +1,5 @@
 package course.rest;
 
-import com.google.gson.Gson;
 import course.entity.EntityLostFound;
 import course.messages.MessageService;
 import course.service.LostFoundService;
@@ -9,6 +8,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Collection;
 
 @Stateless
 @Path("lostfound")
@@ -22,15 +22,14 @@ public class LostFoundResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllMessages() {
-        Gson gson = new Gson();
-        return gson.toJson(lostFound.getMessages());
+    public Collection<EntityLostFound> getAllMessages() {
+        return lostFound.getMessages();
     }
 
     @POST
     @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean addMessage(String content) {
         String msg = "New message: '" + content + "'";
         boolean res = lostFound.createMessage(content);
@@ -42,7 +41,7 @@ public class LostFoundResource {
 
     @GET
     @Path("rm/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean deleteMessage(@PathParam("id")int id) {
         EntityLostFound message = lostFound.getMessageById(id);
         if (message == null) {
@@ -59,8 +58,7 @@ public class LostFoundResource {
     @GET
     @Path("id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getMessageById(@PathParam("id")int id) {
-        Gson gson = new Gson();
-        return gson.toJson(lostFound.getMessageById(id));
+    public EntityLostFound getMessageById(@PathParam("id")int id) {
+        return lostFound.getMessageById(id);
     }
 }

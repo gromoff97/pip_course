@@ -1,6 +1,5 @@
 package course.rest;
 
-import com.google.gson.Gson;
 import course.entity.EntityUsers;
 import course.messages.MessageService;
 import course.service.PermissionTypesService;
@@ -13,10 +12,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 
 @Stateless
 @Path("users")
@@ -33,14 +32,13 @@ public class UsersResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllUsers() {
-        Gson gson = new Gson();
-        return gson.toJson(users.getUsers());
+    public Collection<EntityUsers> getAllUsers() {
+        return users.getUsers();
     }
 
     @GET
     @Path("add/{name}/{lName}/{date}/{eMail}/{type}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean addUser(@PathParam("name")String firstName, @PathParam("lName")String lastName,
                            @PathParam("date")String birthDate, @PathParam("eMail")String eMail, @PathParam("type")int permType) {
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
@@ -60,7 +58,7 @@ public class UsersResource {
 
     @GET
     @Path("rm/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean deleteUser(@PathParam("id")int id) {
         EntityUsers user = users.getUserById(id);
         if (user == null) {
@@ -76,7 +74,7 @@ public class UsersResource {
 
     @GET
     @Path("change/{id}/firstname/{name}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean changeUserFirstName(@PathParam("id")int id, @PathParam("name")String name) {
         EntityUsers user = users.getUserById(id);
         if (user == null) {
@@ -93,7 +91,7 @@ public class UsersResource {
 
     @GET
     @Path("change/{id}/lastname/{lName}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean changeUserLastName(@PathParam("id")int id, @PathParam("lName")String lName) {
         EntityUsers user = users.getUserById(id);
         if (user == null) {
@@ -110,7 +108,7 @@ public class UsersResource {
 
     @GET
     @Path("change/{id}/balance/{balance}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean changeUserBalance(@PathParam("id")int id, @PathParam("balance")int balance) {
         EntityUsers user = users.getUserById(id);
         if (user == null) {
@@ -128,27 +126,25 @@ public class UsersResource {
     @GET
     @Path("email/{eMail}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getUserByEmail(@PathParam("eMail")String eMail) {
-        Gson gson = new Gson();
-        return gson.toJson(users.getUserByEmail(eMail));
+    public EntityUsers getUserByEmail(@PathParam("eMail")String eMail) {
+        return users.getUserByEmail(eMail);
     }
 
     @GET
     @Path("id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getUserById(@PathParam("id")int id) {
-        Gson gson = new Gson();
-        return gson.toJson(users.getUserById(id));
+    public EntityUsers getUserById(@PathParam("id")int id) {
+        return users.getUserById(id);
     }
 
     @GET
     @Path("balance/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response getBalanceById(@PathParam("id")int id) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Integer getBalanceById(@PathParam("id")int id) {
         try {
-            return Response.ok(users.getBalanceById(id)).build();
+            return users.getBalanceById(id);
         } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return null;
         }
     }
 }

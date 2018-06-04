@@ -1,6 +1,5 @@
 package course.rest;
 
-import com.google.gson.Gson;
 import course.entity.EntityNews;
 import course.messages.MessageService;
 import course.service.NewsService;
@@ -9,6 +8,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Collection;
 
 @Stateless
 @Path("news")
@@ -22,15 +22,14 @@ public class NewsResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAllPosts() {
-        Gson gson = new Gson();
-        return gson.toJson(news.getPosts());
+    public Collection<EntityNews> getAllPosts() {
+        return news.getPosts();
     }
 
     @POST
     @Path("add")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean addPost(String content) {
         String msg = "New post: '" + content + "'";
         boolean res = news.createPost(content);
@@ -42,7 +41,7 @@ public class NewsResource {
 
     @GET
     @Path("rm/{id}")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean deletePost(@PathParam("id")int id) {
         EntityNews post = news.getPostById(id);
         if (post == null) {
@@ -59,7 +58,7 @@ public class NewsResource {
     @POST
     @Path("change/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public boolean changePostContent(@PathParam("id")int id, String content) {
         EntityNews post = news.getPostById(id);
         if (post == null) {
@@ -76,8 +75,7 @@ public class NewsResource {
     @GET
     @Path("id/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPostById(@PathParam("id")int id) {
-        Gson gson = new Gson();
-        return gson.toJson(news.getPostById(id));
+    public EntityNews getPostById(@PathParam("id")int id) {
+        return news.getPostById(id);
     }
 }
