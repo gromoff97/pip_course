@@ -28,7 +28,7 @@ public class LostFoundResource {
 
     @POST
     @Path("add")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public boolean addMessage(String content) {
         String msg = "New message: '" + content + "'";

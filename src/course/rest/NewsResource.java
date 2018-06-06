@@ -28,7 +28,7 @@ public class NewsResource {
 
     @POST
     @Path("add")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public boolean addPost(String content) {
         String msg = "New post: '" + content + "'";
@@ -57,7 +57,7 @@ public class NewsResource {
 
     @POST
     @Path("change/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     public boolean changePostContent(@PathParam("id")int id, String content) {
         EntityNews post = news.getPostById(id);
