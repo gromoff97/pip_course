@@ -20,6 +20,7 @@ public class RESTConfig extends Application {
         s.add(StationsResource.class);
         s.add(StationsStatesResource.class);
         s.add(UsersResource.class);
+        s.add(RESTFilter.class);
         return s;
     }
 }
