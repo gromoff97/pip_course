@@ -19,7 +19,6 @@ public class MessageService {
         try {
             connection = factory.newConnection();
             channel = connection.createChannel();
-            channel.exchangeDeclare("logs", "fanout");
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
         }
@@ -27,10 +26,23 @@ public class MessageService {
 
     public void sendMsg(String message) {
         try {
+            channel.exchangeDeclare("logs", "fanout");
             channel.basicPublish("logs", "", null, message.getBytes("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String createQueue() {
+        String queueName = "";
+        try {
+            channel.exchangeDeclare("logs", "fanout");
+            queueName = channel.queueDeclare("", false, false, true, null).getQueue();
+            channel.queueBind(queueName, "logs", "");
+        } catch (IOException e) {
+            System.out.println("Couldn't connect.");
+        }
+        return queueName;
     }
 
     @Override
