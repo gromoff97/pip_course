@@ -67,7 +67,7 @@ public class StationsService {
     }
 
     public Collection<EntityStations> getStations() {
-        return em.createQuery("SELECT s FROM EntityStations s", EntityStations.class)
+        return em.createQuery("SELECT s FROM EntityStations s ORDER BY s.name", EntityStations.class)
                 .getResultList();
     }
 
