@@ -57,7 +57,7 @@ public class NewsService {
     }
 
     public Collection<EntityNews> getPosts(){
-        return em.createQuery("SELECT n FROM EntityNews n",EntityNews.class).getResultList();
+        return em.createQuery("SELECT n FROM EntityNews n ORDER BY n.date",EntityNews.class).getResultList();
     }
 
     public EntityNews getPostById(int id){

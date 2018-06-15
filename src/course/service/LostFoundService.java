@@ -47,7 +47,7 @@ public class LostFoundService {
     }
 
     public Collection<EntityLostFound> getMessages(){
-        return em.createQuery("SELECT lf FROM EntityLostFound lf",EntityLostFound.class).getResultList();
+        return em.createQuery("SELECT lf FROM EntityLostFound lf ORDER BY lf.date",EntityLostFound.class).getResultList();
     }
 
     public EntityLostFound getMessageById(int id){
