@@ -37,9 +37,9 @@ public class UsersResource {
     }
 
     @GET
-    @Path("add/{name}/{lName}/{date}/{eMail}/{type}")
+    @Path("add/{login}/{name}/{lName}/{date}/{eMail}/{type}")
     @Produces(MediaType.APPLICATION_JSON)
-    public boolean addUser(@PathParam("name")String firstName, @PathParam("lName")String lastName,
+    public boolean addUser(@PathParam("login")String login, @PathParam("name")String firstName, @PathParam("lName")String lastName,
                            @PathParam("date")String birthDate, @PathParam("eMail")String eMail, @PathParam("type")int permType) {
         DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         Date date;
@@ -49,7 +49,7 @@ public class UsersResource {
             return false;
         }
         String msg = "User " + lastName + " " + firstName + " was added";
-        boolean res = users.createUser(firstName, lastName, date, eMail, permissionTypes.getPermTypeById(permType));
+        boolean res = users.createUser(login, firstName, lastName, date, eMail, permissionTypes.getPermTypeById(permType));
         if (res) {
             messageService.sendMsg(msg);
         }
@@ -128,6 +128,13 @@ public class UsersResource {
     @Produces(MediaType.APPLICATION_JSON)
     public EntityUsers getUserByEmail(@PathParam("eMail")String eMail) {
         return users.getUserByEmail(eMail);
+    }
+
+    @GET
+    @Path("login/{login}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public EntityUsers getUserByLogin(@PathParam("login")String login) {
+        return users.getUserByLogin(login);
     }
 
     @GET

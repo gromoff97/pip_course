@@ -30,6 +30,9 @@ public class EntityUsers {
     @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
     private int id;
 
+    @Column(nullable = false, unique = true)
+    private String login;
+
     @Column(nullable = false)
     private String firstName;
 
@@ -52,7 +55,8 @@ public class EntityUsers {
     public EntityUsers() {
     }
 
-    public EntityUsers(String firstName, String lastName, Date birthDate, String eMail, EntityPermissionTypes userPermissionType) {
+    public EntityUsers(String login, String firstName, String lastName, Date birthDate, String eMail, EntityPermissionTypes userPermissionType) {
+        this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -88,6 +92,10 @@ public class EntityUsers {
 
     public EntityPermissionTypes getUserPermissionType() {
         return userPermissionType;
+    }
+
+    public String getLogin() {
+        return login;
     }
 
     public void setFirstName(String firstName) {

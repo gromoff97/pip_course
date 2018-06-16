@@ -25,8 +25,8 @@ public class UsersService {
     @PersistenceContext
     private EntityManager em;
 
-    public boolean createUser(String firstName, String lastName, Date birthDate, String eMail, EntityPermissionTypes userPermissionType){
-        EntityUsers user = new EntityUsers(firstName,lastName,birthDate,eMail,userPermissionType);
+    public boolean createUser(String login, String firstName, String lastName, Date birthDate, String eMail, EntityPermissionTypes userPermissionType){
+        EntityUsers user = new EntityUsers(login, firstName,lastName,birthDate,eMail,userPermissionType);
         try{
             em.persist(user);
             em.flush();
@@ -94,6 +94,16 @@ public class UsersService {
         try {
             return em.createQuery("SELECT l FROM EntityUsers l where l.eMail = :mail",EntityUsers.class)
                     .setParameter("mail",Email)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public EntityUsers getUserByLogin(String login) {
+        try {
+            return em.createQuery("SELECT l FROM EntityUsers l where l.login = :login",EntityUsers.class)
+                    .setParameter("login",login)
                     .getSingleResult();
         } catch (Exception e) {
             return null;
